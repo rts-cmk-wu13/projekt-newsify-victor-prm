@@ -1,0 +1,16 @@
+@use 'base'
+@use 'variables'
+
+.page-header
+    @include base.fxrow()
+    gap: variables.$unit-2x
+    height: variables.$unit-4x
+    margin: variables.$unit-4x 0
+    align-items: center
+    justify-content: center
+
+    h1
+        font: variables.$text-heading-2
+        width: fit-content
+    
+
