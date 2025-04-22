@@ -1,6 +1,6 @@
 import { setElement } from "../js/utilities";
 import { companyLogo } from "../js/utilities";
-import '../style/pageHeader.sass'
+import '../style/components/page-header.sass'
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
 
@@ -9,8 +9,8 @@ class PageHeaderComp extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render();
         this.setClass();
+        this.render();
     }
 
     render() {

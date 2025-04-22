@@ -27,21 +27,21 @@ ul li
     text-indent: 0
     list-style-type: none
 
-@mixin fxcol()
+%fxcol
     display: flex
     flex-direction: column
 
-@mixin fxrow()
+%fxrow
     display: flex
     flex-direction: row
     align-items: flex-start
 
-@mixin standard-grid()
+%standard-grid
     display: grid
     grid-template-columns: repeat(auto-fit, minmax(var.$grid-item-size, 1fr))
     gap: var.$unit-1x
 
-@mixin clickable-card()
+%clickable-card
     position: relative
 
     a::before
@@ -56,8 +56,5 @@ ul li
 
     &:focus-within
         box-shadow: 0 0 0 1px blue
-
-.company-logo
-    height: 100%
 
 @media only screen and (max-width: var.$tablet-breakpoint)

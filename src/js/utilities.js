@@ -20,10 +20,11 @@ export function setElement(tag, attributesObj) {
 }
 
 import logoSVG from '../assets/newsify_logo.svg';
-export function companyLogo(){  
-    let logo = setElement("img",{
+export function companyLogo() {
+    let logo = setElement("img", {
         class: "company-logo",
         src: logoSVG
     })
     return logo;
 }
+

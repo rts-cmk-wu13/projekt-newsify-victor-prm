@@ -1,0 +1,19 @@
+@use '../base'
+@use '../variables' as var
+
+.article-item
+    @extend %fxrow
+    margin-bottom: var.$unit-1x
+    gap: var.$unit-1x
+
+    &--img-wrap
+        width: 5rem
+        aspect-ratio: 1 / 1
+        background-color: var.$gray-100
+        border-radius: var.$unit-1x
+    
+    h1
+        font: var.$text-title-2
+    
+    p
+        font: var.$text-body-3
