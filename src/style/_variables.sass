@@ -1,0 +1,43 @@
+@use 'sass:math'
+@use 'sass:color'
+
+/* Gray base */
+$gray-500: #7f7f7f
+/* Gray lighter */
+$gray-050: color.scale($gray-500,$lightness: 90%)
+$gray-100: color.scale($gray-500,$lightness: 80%)
+$gray-200: color.scale($gray-500,$lightness: 60%)
+$gray-300: color.scale($gray-500,$lightness: 40%)
+$gray-400: color.scale($gray-500,$lightness: 20%)
+/* Gray darker */
+$gray-600: color.scale($gray-500,$lightness: -20%)
+$gray-700: color.scale($gray-500,$lightness: -40%)
+$gray-800: color.scale($gray-500,$lightness: -60%)
+$gray-900: color.scale($gray-500,$lightness: -80%)
+$gray-950: color.scale($gray-500,$lightness: -90%)
+
+$color-primary: #88A4E8
+$color-primary-dark: #110E47
+$color-primary-light: #DBE3FF
+
+$black-tint-100: rgba($gray-900, .2)
+$box-shadow-6r: 0 0 6rem $black-tint-100
+
+$max-width-content: 70rem
+$max-width-page: 80rem
+$tablet-breakpoint: 40rem
+$unit-1x: 0.5rem
+$unit-2x:$unit-1x*2
+$unit-3x:$unit-1x*3
+$unit-4x:$unit-1x*4
+$unit-5x:$unit-1x*5
+$unit-6x:$unit-1x*6
+$unit-7x:$unit-1x*7
+$unit-8x:$unit-1x*8
+$unit-05x: math.div($unit-1x,2)
+$unit-025x: math.div($unit-1x,4)
+
+$svg-white: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg) brightness(110%) contrast(110%)
+
+$text-headline: 1.5rem/2rem Roboto_Reg, Arial, Helvetica, sans-serif
+$grid-item-size: 8rem
