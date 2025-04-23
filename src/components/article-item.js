@@ -1,5 +1,4 @@
 import { setElement } from '../js/utilities';
-import '../style/components/article-item.sass'
 
 let tagName = 'article-item'
 class ArticleItemComp extends HTMLElement {
@@ -31,8 +30,12 @@ class ArticleItemComp extends HTMLElement {
         let summary = setElement("p",).inner("Summary")
         textContainer.append(headline, summary)
 
+        let testIcon = setElement("i",{
+            class: "far fa-heart"
+        })
+      
         //Append
-        this.append(imgWrap, textContainer)
+        this.append(imgWrap, textContainer, testIcon)
     }
     setClass() {
         this.className = this.getAttribute('class') || tagName

@@ -1,6 +1,6 @@
 import { setElement } from "../js/utilities";
 import { companyLogo } from "../js/utilities";
-import '../style/components/page-header.sass'
+
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
 
