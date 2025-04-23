@@ -15,13 +15,12 @@ class NewsSectionComp extends HTMLElement {
         this.setClass();
         this.render();
 
-        console.log(this.props)
     }
 
     render() {
         //Details
         let accordion = setElement("details", {
-            class: "content"
+            open: ""
         })
 
         //Summary
@@ -38,8 +37,12 @@ class NewsSectionComp extends HTMLElement {
             class: "fas fa-chevron-right"
         })
 
+        let contentDiv = setElement("div", {
+            class: "content-div"
+        })
+
         summary.append(titleGroup, icon)
-        accordion.append(summary)
+        accordion.append(summary, contentDiv)
         this.append(accordion)
 
     }

@@ -18,6 +18,38 @@ let news = newsList();
 news.forEach(element => {
     let section = setElement(NewsSection)
     section.dataObject = element;
-    main.append(section)
+    main.append(section);
+
+
+    let contentElm = section.querySelector(".content-div")
+    fetchArticlesBySection(element.query, contentElm)
+
 });
 
+
+
+function fetchArticlesBySection(query, contentElm) {
+    const apiKey = API_KEY
+    const baseUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    const url = `${baseUrl}?q=${query}&api-key=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let items = data.response.docs
+            console.log(items); // articles array
+
+            items.forEach(item => {
+                let article = setElement(ArticleItem)
+                article.dataObject = item;
+                contentElm.append(article)
+            })
+
+        })
+        .catch(error => {
+            console.error("Error fetching articles:", error);
+        });
+}
+
+// Example call
+fetchArticlesBySection("World");
