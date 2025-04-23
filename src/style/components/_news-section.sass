@@ -1,0 +1,37 @@
+@use '../base'
+@use '../variables' as var
+
+.news-section
+    hgroup, summary
+        @extend %fxrow
+        gap: var.$unit-1x
+        justify-content: space-between
+        align-items: center
+
+    h2
+        font: var.$text-heading-3
+
+    hgroup>i
+        width: var.$unit-3x
+        text-align: center
+        color: var.$color-primary-700
+
+    summary
+        cursor: pointer
+        border-top: 1px solid var.$gray-200
+        padding: var.$unit-1x 0
+
+        &::marker
+            content: ""
+
+    &:last-of-type
+        summary
+            border-bottom: 1px solid var.$gray-200
+
+    details
+        .fa-chevron-right
+            transition: transform 0.3s
+        &:open
+            summary
+                .fa-chevron-right
+                    transform: rotate(90deg)

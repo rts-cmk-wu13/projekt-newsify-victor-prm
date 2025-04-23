@@ -27,21 +27,17 @@ class ArticleItemComp extends HTMLElement {
         //Text
         let textContainer = setElement("article")
         let headline = setElement("h1").inner("Title")
-        let summary = setElement("p",).inner("Summary")
+        let summary = setElement("p").inner("Summary")
         textContainer.append(headline, summary)
-
-        let testIcon = setElement("i",{
-            class: "far fa-heart"
-        })
       
         //Append
-        this.append(imgWrap, textContainer, testIcon)
+        this.append(imgWrap, textContainer)
     }
     setClass() {
         this.className = this.getAttribute('class') || tagName
-        this._classModifier = this.getAttribute('class-mod')
-        if (this._classModifier) {
-            this.classList.add(`${this.className}--${this._classModifier}`)
+        this.classModifier = this.getAttribute('class-mod')
+        if (this.classModifier) {
+            this.classList.add(`${this.className}--${this.classModifier}`)
         }
     }
 }

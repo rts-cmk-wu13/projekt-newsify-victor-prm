@@ -28,3 +28,34 @@ export function companyLogo() {
     return logo;
 }
 
+export function newsList() {
+    let newsList = [
+        {
+            title: "Europe",
+            icon: "fas fa-euro",
+            url: "http://example.com"
+        },
+        {
+            title: "Health",
+            icon: "fas fa-doctor",
+            url: "http://example.com"
+        },
+        {
+            title: "Sports",
+            icon: "fas fa-ball",
+            url: "http://example.com"
+        },
+        {
+            title: "Business",
+            icon: "fas fa-chart",
+            url: "http://example.com"
+        },
+        {
+            title: "Travel",
+            icon: "far fa-map",
+            url: "http://example.com"
+        }
+    ]
+
+    return newsList;
+}
