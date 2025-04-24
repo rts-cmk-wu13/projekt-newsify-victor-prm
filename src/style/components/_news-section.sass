@@ -34,9 +34,24 @@
             border-bottom: 1px solid var.$gray-200
 
     details
-        .fa-chevron-right
-            transition: transform 0.3s
+        interpolate-size: allow-keywords
+
+        &::details-content
+            opacity: 0
+            block-size: 0
+            overflow-y: clip
+            padding-bottom: 0
+            transition: content-visibility 0.3s allow-discrete, opacity 0.3s, block-size 0.3s,  padding-bottom 0.3s
+
         &:open
             summary
                 .fa-chevron-right
                     transform: rotate(90deg)
+
+            &::details-content
+                opacity: 1
+                block-size: auto
+                padding-bottom: var.$unit-6x
+
+        .fa-chevron-right
+            transition: transform 0.3s

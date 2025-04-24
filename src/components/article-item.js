@@ -13,6 +13,7 @@ class ArticleItemComp extends HTMLElement {
     }
 
     connectedCallback() {
+        console.log(this.props)
         this.setClass();
         this.render();
 
@@ -27,13 +28,13 @@ class ArticleItemComp extends HTMLElement {
 
         let img = setElement("img", {
             class: `${this.className}--img`,
-            src: this.props.multimedia.thumbnail.url
+            src: this.props.thumbnail
         })
         imgWrap.append(img)
 
         //Text
         let textContainer = setElement("article")
-        let headline = setElement("h3").inner(this.props.headline.main)
+        let headline = setElement("h3").inner(this.props.title)
 
 
 
@@ -41,7 +42,7 @@ class ArticleItemComp extends HTMLElement {
 
 
 
-        let byline = setElement("p").inner(this.props.byline.original + " — " + this.formatDate())
+        let byline = setElement("p").inner(this.props.byline + " — " + this.formatDate())
         let summary = setElement("p").inner(this.props.abstract)
         textContainer.append(headline, byline, summary)
 

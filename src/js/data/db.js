@@ -6,10 +6,11 @@ function openDB() {
         //Define object stores, The request.onupgradeneeded event is triggered when the version number changes.
         request.onupgradeneeded = (event) => {
             const db = event.target.result;
-            if (!db.objectStoreNames.contains("articles")) {
-                const store = db.createObjectStore("articles", { keyPath: "id" });
-                store.createIndex("published_date", "published_date", { unique: false });
-            }
+            const store = db.createObjectStore("articles", { keyPath: "id" });
+
+            // Index for fast querying by category
+            store.createIndex("category", "category", { unique: false });
+            store.createIndex("published_date", "published_date", { unique: false });
         };
 
         // On success
@@ -24,10 +25,10 @@ function openDB() {
     });
 }
 
-export async function saveArticles(topic, articleArray) {
+export async function saveArticles(articleArray) {
     const db = await openDB();
-    const transaction = db.transaction(topic, "readwrite");
-    const store = transaction.objectStore(topic);
+    const transaction = db.transaction("articles", "readwrite");
+    const store = transaction.objectStore("articles");
 
     articleArray.forEach(article => {
         store.put(article);  // put() will update if exists, add if new
@@ -36,10 +37,23 @@ export async function saveArticles(topic, articleArray) {
     return transaction.complete;
 }
 
-export async function getAllArticles(topic) {
+export async function getArticlesByCategory(category) {
     const db = await openDB();
-    const transaction = db.transaction(topic, "readonly");
-    const store = transaction.objectStore(topic);
+    const tx = db.transaction("articles", "readonly");
+    const store = tx.objectStore("articles");
+    const index = store.index("category");
+
+    return new Promise((resolve, reject) => {
+        const request = index.getAll(category);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+export async function getAllArticles() {
+    const db = await openDB();
+    const transaction = db.transaction("articles", "readonly");
+    const store = transaction.objectStore("articles");
 
     return new Promise((resolve, reject) => {
         const request = store.getAll();
@@ -53,3 +67,7 @@ export async function getAllArticles(topic) {
         };
     });
 }
+
+
+
+

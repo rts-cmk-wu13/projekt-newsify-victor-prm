@@ -19,9 +19,7 @@ class NewsSectionComp extends HTMLElement {
 
     render() {
         //Details
-        let accordion = setElement("details", {
-            open: ""
-        })
+        let accordion = setElement("details")
 
         //Summary
         let summary = setElement("summary")

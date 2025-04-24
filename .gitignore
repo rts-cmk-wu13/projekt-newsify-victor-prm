@@ -13,6 +13,7 @@ dist-ssr
 *.local
 project-files
 api-key.js
+saveForLater.js
 
 # Editor directories and files
 .vscode/*

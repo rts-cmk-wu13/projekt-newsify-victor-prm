@@ -1,3 +1,5 @@
+import { saveArticles, getArticlesByCategory } from './data/db.js';
+
 export function setElement(tag, attributesObj) {
     function setAttributes(el, attrs) {
         Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
@@ -269,3 +271,4 @@ function allSections() {
         ]
     }
 }
+
