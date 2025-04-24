@@ -29,7 +29,7 @@ export async function loadArticles(category) {
 
         const articles = data.response.docs.map(article => ({
             id: article.uri,  // or article.url or some unique identifier
-            title: article.headline.main,
+            title: article.headline.print_headline || article.headline.main,
             abstract: article.abstract,
             thumbnail: article.multimedia.thumbnail.url,
             byline: article.byline.original,

@@ -1,4 +1,5 @@
 import { setElement } from '../js/utilities';
+import clamp from 'clamp-js';
 
 let tagName = 'article-item'
 class ArticleItemComp extends HTMLElement {
@@ -34,23 +35,40 @@ class ArticleItemComp extends HTMLElement {
 
         //Text
         let textContainer = setElement("article")
+        let hgroup = setElement("hgroup")
         let headline = setElement("h3").inner(this.props.title)
 
+        let byline = setElement("p").inner(this.formatDate() + " — " + this.props.byline)
+        clamp(byline, { clamp: 1 });
 
+        hgroup.append(headline, byline)
 
-
-
-
-
-        let byline = setElement("p").inner(this.props.byline + " — " + this.formatDate())
         let summary = setElement("p").inner(this.props.abstract)
-        textContainer.append(headline, byline, summary)
+        //clamp(summary, { clamp: 1 });
+        textContainer.append(hgroup, summary)
 
         //Append
         this.append(imgWrap, textContainer)
+
+        this.clampText(summary, hgroup)
+
+
     }
 
-    formatDate(){
+    clampText(textElm, occupiedSpace) {
+        
+        new ResizeObserver(() => {
+            let clampLines = 2
+            if(occupiedSpace.clientHeight > 40){
+                clampLines = 1
+            }
+            clamp(textElm, {
+                clamp: clampLines
+            });
+        }).observe(this)
+    }
+
+    formatDate() {
 
         const dateStr = this.props.pub_date
         const dateObj = new Date(dateStr);
