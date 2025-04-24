@@ -29,8 +29,6 @@ export function companyLogo() {
 }
 
 export function newsList() {
-    console.log(API_KEY)
-
     let newsList = [
         {
             title: "Europe",

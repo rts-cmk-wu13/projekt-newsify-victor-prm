@@ -22,7 +22,7 @@ news.forEach(element => {
 
 
     let contentElm = section.querySelector(".content-div")
-    fetchArticlesBySection(element.query, contentElm)
+    //fetchArticlesBySection(element.query, contentElm)
 
 });
 
@@ -50,6 +50,3 @@ function fetchArticlesBySection(query, contentElm) {
             console.error("Error fetching articles:", error);
         });
 }
-
-// Example call
-fetchArticlesBySection("World");
