@@ -4,12 +4,13 @@
 .article-item
     @extend %fxrow
     gap: var.$unit-1x
-    height: 5rem
+    padding-bottom: var.$unit-2x
+    //border-bottom: 1px solid var.$gray-050
 
-    &--img-wrap
+    &__img-wrap
         aspect-ratio: 1 / 1
         flex: 0 0 auto
-        min-height: 100%
+        min-height: 5rem
 
         background-color: var.$gray-100
         border-radius: var.$unit-1x
@@ -41,3 +42,6 @@
         p
             font: var.$text-body-3
             flex: 1
+
+    &:not(:last-of-type)
+        border-bottom: 1px solid var.$gray-050

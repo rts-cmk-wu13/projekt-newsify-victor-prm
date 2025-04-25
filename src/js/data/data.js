@@ -1,6 +1,6 @@
 import { saveArticles, getArticlesByCategory } from "./db";
 
-const CACHE_EXPIRY_MINUTES = 1;
+const CACHE_EXPIRY_MINUTES = 10;
 const CACHE_KEY = "nytArticlesCacheTimestamp";
 
 function isCacheExpired() {
@@ -24,7 +24,7 @@ export async function loadArticles(category) {
     if (isCacheExpired()) {
         console.log("Fetching fresh articles from API...");
 
-        const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${category}&api-key=${API_KEY}&page=1`);
+        const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${category}&api-key=${API_KEY}&sort=newest&page=1`);
         const data = await response.json();
 
         const articles = data.response.docs.map(article => ({

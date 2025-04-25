@@ -1,4 +1,4 @@
-import { setElement } from '../js/utilities';
+import { imgWrapper, setElement } from '../js/utilities';
 import clamp from 'clamp-js';
 
 let tagName = 'article-item'
@@ -14,18 +14,14 @@ class ArticleItemComp extends HTMLElement {
     }
 
     connectedCallback() {
-        console.log(this.props)
+        //console.log(this.props)
         this.setClass();
         this.render();
-
-        console.log(this.props)
     }
 
     render() {
         //Image
-        let imgWrap = setElement("figure", {
-            class: `${this.className}--img-wrap`
-        })
+        let imgWrap = imgWrapper(this.className)
 
         let img = setElement("img", {
             class: `${this.className}--img`,
@@ -56,10 +52,10 @@ class ArticleItemComp extends HTMLElement {
     }
 
     clampText(textElm, occupiedSpace) {
-        
+
         new ResizeObserver(() => {
             let clampLines = 2
-            if(occupiedSpace.clientHeight > 40){
+            if (occupiedSpace.clientHeight > 40) {
                 clampLines = 1
             }
             clamp(textElm, {

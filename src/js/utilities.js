@@ -30,6 +30,14 @@ export function companyLogo() {
     return logo;
 }
 
+export function imgWrapper(className){
+    let imgWrap = setElement("figure", {
+        class: `${className}__img-wrap`
+    })
+
+    return imgWrap;
+}
+
 export function newsList() {
     let newsList = [
         {

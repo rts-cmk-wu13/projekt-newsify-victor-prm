@@ -1,5 +1,4 @@
-import { setElement } from "../js/utilities";
-import { companyLogo } from "../js/utilities";
+import { setElement, companyLogo, imgWrapper } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -14,11 +13,33 @@ class PageHeaderComp extends HTMLElement {
     }
 
     render() {
+        //Logo
+        let logoWrap = setElement("hgroup")
         let logo = companyLogo();
-    
         let logoText = setElement("h1").inner("Newsify")
+        logoWrap.append(logo, logoText)
+
+
+        //Profile Image
+        let profileGroup = setElement("div", {
+            class: `${this.className}__profile`
+        })
+        let textGroup = setElement("div")
+        let greeting = setElement("p").inner("Good Morning")
+        let username = setElement("p").inner("Victor P.")
+
+        let imgWrap = imgWrapper(this.className)
+        let initials = setElement("p").inner("VP")
+        let profileImg = setElement("img")
+
+
+        textGroup.append(greeting, username)
+
+        imgWrap.append(initials, profileImg)
         
-        this.append(logo,logoText)
+
+        profileGroup.append(textGroup, imgWrap)
+        this.append(logoWrap, profileGroup)
     }
     setClass() {
         this.className = this.getAttribute('class') || tagName
