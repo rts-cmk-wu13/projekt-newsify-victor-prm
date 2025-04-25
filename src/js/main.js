@@ -26,7 +26,6 @@ news.forEach(element => {
     section.dataObject = element;
     main.append(section);
 
-
     let contentElm = section.querySelector(".content-div")
     loadArticles(element.title).then(items => {
         items.forEach(item => {

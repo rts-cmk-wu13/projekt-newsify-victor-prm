@@ -10,13 +10,15 @@
     &__img-wrap
         aspect-ratio: 1 / 1
         flex: 0 0 auto
-        min-height: 5rem
+        min-height: 6rem
 
         background-color: var.$gray-100
         border-radius: var.$unit-1x
         overflow: hidden
+        display: block
 
         img
+            display: block
             width: 100%
             height: 100%
             object-fit: cover
@@ -33,7 +35,11 @@
 
             h3
                 font: var.$text-title-2
-                text-wrap: pretty
+
+                -webkit-hyphens: auto
+                -moz-hyphens: auto
+                -ms-hyphens: auto
+                hyphens: auto
 
             p
                 font: var.$text-body-4
@@ -42,6 +48,13 @@
         p
             font: var.$text-body-3
             flex: 1
+
+        @media only screen and (max-width: 30rem)
+            hgroup
+                h3
+                    font-size: 0.875rem
+            .summary
+                display: none !important
 
     &:not(:last-of-type)
         border-bottom: 1px solid var.$gray-050

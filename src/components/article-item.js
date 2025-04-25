@@ -32,14 +32,19 @@ class ArticleItemComp extends HTMLElement {
         //Text
         let textContainer = setElement("article")
         let hgroup = setElement("hgroup")
-        let headline = setElement("h3").inner(this.props.title)
+        let headline = setElement("h3",{
+            lang: "en"
+        }).inner(this.props.title)
 
-        let byline = setElement("p").inner(this.formatDate() + " — " + this.props.byline)
+
+        let byline = setElement("p").inner(this.byline())
         clamp(byline, { clamp: 1 });
 
         hgroup.append(headline, byline)
 
-        let summary = setElement("p").inner(this.props.abstract)
+        let summary = setElement("p",{
+            class: "summary"
+        }).inner(this.props.abstract || "This article has no preview.")
         //clamp(summary, { clamp: 1 });
         textContainer.append(hgroup, summary)
 
@@ -62,6 +67,16 @@ class ArticleItemComp extends HTMLElement {
                 clamp: clampLines
             });
         }).observe(this)
+    }
+
+    byline(){
+        let byline = this.formatDate();
+        if(this.props.byline){
+            byline += `${this.props.byline}` 
+        }
+
+        return byline
+
     }
 
     formatDate() {
