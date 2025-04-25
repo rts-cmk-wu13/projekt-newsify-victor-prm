@@ -32,9 +32,7 @@ class PageHeaderComp extends HTMLElement {
         let initials = setElement("p").inner("VP")
         let profileImg = setElement("img")
 
-
         textGroup.append(greeting, username)
-
         imgWrap.append(initials, profileImg)
         
 
