@@ -1,0 +1,62 @@
+@use '../base'
+@use '../variables' as var
+
+.news-section
+    hgroup, summary
+        @extend %fxrow
+        gap: var.$unit-1x
+        justify-content: space-between
+        align-items: center
+
+    h2
+        font: var.$text-heading-3
+
+    hgroup>i
+
+        color: var.$color-primary-700
+
+    summary
+        cursor: pointer
+        border-top: 1px solid var.$gray-200
+        padding: var.$unit-1x
+
+        &::marker
+            content: ""
+
+        i
+            width: var.$unit-3x
+            text-align: center
+
+    .content-div
+        @extend %fxcol
+        gap: var.$unit-2x
+        padding: var.$unit-2x var.$unit-1x
+
+    &:last-of-type
+        summary
+            border-bottom: 1px solid var.$gray-200
+
+    details
+        interpolate-size: allow-keywords
+
+        &::details-content
+            opacity: 0
+            block-size: 0
+            overflow-y: clip
+            padding-bottom: 0
+            transition: content-visibility 0.3s allow-discrete, opacity 0.3s, block-size 0.3s, padding-bottom 0.3s
+
+        &:open
+            summary
+                border-bottom: 1px solid var.$gray-200
+                .fa-chevron-right
+                    transform: rotate(90deg)
+                   
+
+            &::details-content
+                opacity: 1
+                block-size: auto
+                padding-bottom: var.$unit-4x
+
+        .fa-chevron-right
+            transition: transform 0.3s
