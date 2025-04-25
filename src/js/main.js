@@ -5,17 +5,21 @@ import { PageHeader } from '../components/page-header.js'
 import { NewsSection } from '../components/news-section.js';
 import { ArticleItem } from '../components/article-item.js';
 import { loadArticles } from './data/data.js';
+import { NavFooter } from '../components/nav-footer.js';
 
+
+//Setup
 let contentDiv = document.querySelector('#app');
-
-let header = setElement(PageHeader)
+let header = setElement("header")
 let main = setElement("main")
+let footer = setElement("footer")
+contentDiv.append(header, main, footer)
 
-contentDiv.append(header, main)
+//Populate Header
+header.append(setElement(PageHeader))
 
-
+//Populate Main
 let news = newsList();
-
 news.forEach(element => {
     let section = setElement(NewsSection)
 
@@ -34,3 +38,6 @@ news.forEach(element => {
     })
     //fetchArticlesBySection(element.title, element.query, contentElm)
 });
+
+//Populate Footer
+footer.append(setElement(NavFooter))
