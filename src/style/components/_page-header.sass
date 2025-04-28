@@ -11,7 +11,7 @@
 
     hgroup
         @extend %fxrow
-        gap: var.$unit-2x
+        gap: var.$unit-1x
         height: 100%
         padding-inline: var.$unit-1x
 
@@ -22,26 +22,32 @@
     &__profile
         @extend %fxrow
         align-items: center
-        gap: var.$unit-2x
+        gap: var.$unit-1x
         p
             font: var.$text-body-4
 
         div
             text-align: right
 
-    &__img-wrap
+    button
         @extend %fxrow
         align-items: center
         justify-content: center
 
         aspect-ratio: 1 / 1
-        flex: 0 0 auto
-        min-height: var.$unit-4x
+        height: var.$unit-4x
 
         background-color: var.$gray-100
         border-radius: 100%
+        border: none
+
+        overflow: hidden
 
         p
             font-weight: 900
             width: fit-content
             color: var.$gray-600
+        
+        img
+            width: 100%
+            height: 100%
