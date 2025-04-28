@@ -25,14 +25,18 @@ footer
         @extend %fxrow
         justify-content: space-evenly
         align-items: center
+        height: auto
 
-        div
+        a
             @extend %fxcol
             align-items: center
+            font: var.$text-body-4
+            text-decoration: none
+            color: var.$gray-700
 
             i
+                font-size: var.$unit-2x
                 color: var.$gray-700
 
-            a
-                font: var.$text-body-4
-                text-decoration: none
+            &[aria-current="page"], &[aria-current="page"] i
+                color: var.$color-primary-500
