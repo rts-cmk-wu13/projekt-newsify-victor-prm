@@ -25,30 +25,35 @@ class PageHeaderComp extends HTMLElement {
         let profileGroup = setElement("div", {
             class: `${this.className}__profile`
         })
+        let user = "John D."
+
         let textGroup = setElement("div")
         let greeting = setElement("p").inner(this.timeSpecificGreeting())
-        let username = setElement("p").inner("Victor P.")
+        let username = setElement("p").inner(user)
 
         textGroup.append(greeting, username)
 
-        let settingsBtn = this.profileSettingsBtn();
+        let settingsBtn = this.profileSettingsBtn(user);
 
         profileGroup.append(textGroup, settingsBtn)
         this.append(logoWrap, profileGroup)
     }
 
-    profileSettingsBtn() {
+    profileSettingsBtn(user) {
         let settingsBtn = setElement("button")
         let imgSource;
         //imgSource = logoSVG
 
         if (!imgSource) {
-            let initials = setElement("p").inner("VP")
+            let initialsText = user.split(" ")
+            initialsText = initialsText[0].substring(0,1)+ initialsText[1].substring(0,1);
+           
+            let initials = setElement("p").inner(initialsText)
             settingsBtn.append(initials)
 
 
-            settingsBtn.style.backgroundColor = this.stringToHslColor("Victor P.", 100, 90)
-            initials.style.color = this.stringToHslColor("Victor P.", 100, 25)
+            settingsBtn.style.backgroundColor = this.stringToHslColor(user, 100, 90)
+            initials.style.color = this.stringToHslColor(user, 100, 25)
         } else {
             let profileImg = setElement("img", {
                 src: imgSource
