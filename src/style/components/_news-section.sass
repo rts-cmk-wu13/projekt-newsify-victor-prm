@@ -22,8 +22,10 @@
         border-top: 1px solid var.$gray-200
         padding: var.$unit-1x
 
-        &::marker
+        &::marker, &::-webkit-details-marker
             content: ""
+            display: none
+            list-style: none
 
         i
             width: var.$unit-3x

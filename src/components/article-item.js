@@ -14,7 +14,7 @@ class ArticleItemComp extends HTMLElement {
     }
 
     connectedCallback() {
-        //console.log(this.props)
+        console.log(this.props)
         this.setClass();
         this.render();
     }
@@ -32,10 +32,17 @@ class ArticleItemComp extends HTMLElement {
         //Text
         let textContainer = setElement("article")
         let hgroup = setElement("hgroup")
+        let linkToNYT = setElement("a", {
+            href: this.props.url,
+            target: "_blank"
+        }).inner(this.props.title)
         let headline = setElement("h3", {
             lang: "en"
-        }).inner(this.props.title)
-
+        })
+        let externalIcon = setElement("i", {
+            class: "fas fa-external"
+        })
+        headline.append(externalIcon, linkToNYT)
 
         let byline = setElement("p").inner(this.byline())
         clamp(byline, { clamp: 1 });
@@ -79,7 +86,7 @@ class ArticleItemComp extends HTMLElement {
     byline() {
         let byline = this.formatDate();
         if (this.props.byline) {
-            byline += `${this.props.byline}`
+            byline += ` — ${this.props.byline}`
         }
 
         return byline
@@ -91,14 +98,26 @@ class ArticleItemComp extends HTMLElement {
         let startX = 0;
         let currentX = 0;
         let dragging = false;
-        let maxDrag = 104; // 6rem in px (negative direction)
+        let maxDrag = 104; // 6.5rem in px (negative direction)
         let saveThreshold = -90;
         let hasSwipedLeft = false;
+        let moved = false;
+
+        article.addEventListener("click", (e) => {
+            let deltaX = e.clientX - startX;
+
+            // Deadzone handling (user ISN'T swiping)
+            if (Math.abs(deltaX) < 5) {
+                window.open(this.props.url, '_blank').focus();
+            }
+
+        });
 
         article.addEventListener("pointerdown", (e) => {
             startX = e.clientX;
             dragging = true;
             hasSwipedLeft = false;
+            moved = false;
             article.style.transition = "none";
             article.setPointerCapture(e.pointerId);
         });
@@ -109,22 +128,22 @@ class ArticleItemComp extends HTMLElement {
             let deltaX = e.clientX - startX;
 
             if (deltaX < 0) {
-                // Only allow dragging to the left from initial position
                 currentX = deltaX;
                 if (currentX < -maxDrag) currentX = -maxDrag;
                 hasSwipedLeft = true;
             } else if (hasSwipedLeft) {
-                // If the user already moved left, allow moving right but not past 0
                 currentX = deltaX;
                 if (currentX > 0) currentX = 0;
             } else {
-                // If no left swipe yet and trying to go right — ignore it
                 currentX = 0;
             }
 
+            // Deadzone handling (user IS swiping)
+            if (Math.abs(deltaX) > 5) moved = true;
+
             if (currentX <= saveThreshold) {
-                swipeBox.innerHTML = "Saved!"
-                swipeBox.classList.add("save-complete")
+                swipeBox.innerHTML = "Saved!";
+                swipeBox.classList.add("save-complete");
             }
 
             article.style.transform = `translateX(${currentX}px)`;
@@ -138,9 +157,21 @@ class ArticleItemComp extends HTMLElement {
                 console.log("Article saved!");
             }
 
-            // Animate back to original position
+            // Reset position and swipeBox
             article.style.transition = "transform 0.2s ease";
             article.style.transform = "translateX(0)";
+
+            // Optionally clear swipeBox content after reset
+            swipeBox.innerHTML = "";
+            swipeBox.classList.remove("save-complete");
+
+            // If no meaningful movement — simulate normal click if user tapped on a link
+            if (!moved) {
+                const targetElement = document.elementFromPoint(e.clientX, e.clientY);
+                if (targetElement && targetElement.closest("a")) {
+                    targetElement.click();
+                }
+            }
         });
     }
 

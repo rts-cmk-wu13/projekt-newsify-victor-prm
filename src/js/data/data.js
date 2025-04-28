@@ -48,7 +48,6 @@ export async function loadArticles(category) {
                 category: category,
                 pub_date: article.pub_date,
                 url: article.web_url,
-
             })
         );
 

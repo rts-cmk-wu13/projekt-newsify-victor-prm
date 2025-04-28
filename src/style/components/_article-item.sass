@@ -2,8 +2,10 @@
 @use '../variables' as var
 
 .article-item
-    position: relative
     @extend %fxrow
+    cursor: pointer
+
+    position: relative
     gap: var.$unit-1x
     padding-bottom: var.$unit-2x
     //border-bottom: 1px solid var.$gray-050
@@ -59,12 +61,33 @@
 
             h3
                 font: var.$text-title-2
+                letter-spacing: 0.02rem
+                color: var.$color-primary-700
 
                 -webkit-hyphens: auto
                 -moz-hyphens: auto
                 -ms-hyphens: auto
                 hyphens: auto
 
+                i
+                    font-size: 0.75rem
+                    margin-right: var.$unit-05x
+
+                a
+                    color: var.$color-primary-700
+                    text-underline-offset: var.$unit-025x
+                    text-decoration: underline dotted var.$color-primary-050
+                    -webkit-text-decoration: underline dotted var.$color-primary-050
+                    text-decoration-thickness: 4px
+                    transition: color 0.3s, text-decoration-color 0.3s
+
+                &:hover
+                    color: var.$color-primary-600
+                    text-decoration-color: var.$color-primary-100
+
+                    a
+                        color: var.$color-primary-600
+                        text-decoration-color: var.$color-primary-100
             p
                 font: var.$text-body-4
                 color: var.$gray-300
