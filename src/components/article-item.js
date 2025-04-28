@@ -24,7 +24,7 @@ class ArticleItemComp extends HTMLElement {
         let imgWrap = imgWrapper(this.className)
 
         let img = setElement("img", {
-            class: `${this.className}--img`,
+            class: `${this.className}__img`,
             src: this.props.thumbnail
         })
         imgWrap.append(img)
@@ -32,7 +32,7 @@ class ArticleItemComp extends HTMLElement {
         //Text
         let textContainer = setElement("article")
         let hgroup = setElement("hgroup")
-        let headline = setElement("h3",{
+        let headline = setElement("h3", {
             lang: "en"
         }).inner(this.props.title)
 
@@ -42,18 +42,25 @@ class ArticleItemComp extends HTMLElement {
 
         hgroup.append(headline, byline)
 
-        let summary = setElement("p",{
+        let summary = setElement("p", {
             class: "summary"
         }).inner(this.props.abstract || "This article has no preview.")
         //clamp(summary, { clamp: 1 });
         textContainer.append(hgroup, summary)
 
+
+        let swipeBox = setElement("div", {
+            class: `${this.className}__swipe-box`,
+        })
+        let swipeIcon = setElement("p").inner("Save")
+        swipeBox.append(swipeIcon)
+
         //Append
-        this.append(imgWrap, textContainer)
+        this.append(imgWrap, textContainer, swipeBox)
 
         this.clampText(summary, hgroup)
 
-
+        this.handleSwipe(swipeBox)
     }
 
     clampText(textElm, occupiedSpace) {
@@ -69,14 +76,72 @@ class ArticleItemComp extends HTMLElement {
         }).observe(this)
     }
 
-    byline(){
+    byline() {
         let byline = this.formatDate();
-        if(this.props.byline){
-            byline += `${this.props.byline}` 
+        if (this.props.byline) {
+            byline += `${this.props.byline}`
         }
 
         return byline
 
+    }
+
+    handleSwipe(swipeBox) {
+        const article = this;
+        let startX = 0;
+        let currentX = 0;
+        let dragging = false;
+        let maxDrag = 104; // 6rem in px (negative direction)
+        let saveThreshold = -90;
+        let hasSwipedLeft = false;
+
+        article.addEventListener("pointerdown", (e) => {
+            startX = e.clientX;
+            dragging = true;
+            hasSwipedLeft = false;
+            article.style.transition = "none";
+            article.setPointerCapture(e.pointerId);
+        });
+
+        article.addEventListener("pointermove", (e) => {
+            if (!dragging) return;
+
+            let deltaX = e.clientX - startX;
+
+            if (deltaX < 0) {
+                // Only allow dragging to the left from initial position
+                currentX = deltaX;
+                if (currentX < -maxDrag) currentX = -maxDrag;
+                hasSwipedLeft = true;
+            } else if (hasSwipedLeft) {
+                // If the user already moved left, allow moving right but not past 0
+                currentX = deltaX;
+                if (currentX > 0) currentX = 0;
+            } else {
+                // If no left swipe yet and trying to go right — ignore it
+                currentX = 0;
+            }
+
+            if (currentX <= saveThreshold) {
+                swipeBox.innerHTML = "Saved!"
+                swipeBox.classList.add("save-complete")
+            }
+
+            article.style.transform = `translateX(${currentX}px)`;
+        });
+
+        article.addEventListener("pointerup", (e) => {
+            dragging = false;
+            article.releasePointerCapture(e.pointerId);
+
+            if (currentX <= saveThreshold) {
+                console.log("Article saved!");
+            }
+
+            // Animate back to original position
+            article.style.transition = "transform 0.2s ease";
+            article.style.transform = "translateX(0)";
+        });
     }
 
     formatDate() {
@@ -97,6 +162,7 @@ class ArticleItemComp extends HTMLElement {
             this.classList.add(`${this.className}--${this.classModifier}`)
         }
     }
+
 }
 
 customElements.define(tagName, ArticleItemComp)
