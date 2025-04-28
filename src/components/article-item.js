@@ -14,7 +14,7 @@ class ArticleItemComp extends HTMLElement {
     }
 
     connectedCallback() {
-        //console.log(this.props)
+        console.log(this.props)
         this.setClass();
         this.render();
     }
@@ -24,7 +24,7 @@ class ArticleItemComp extends HTMLElement {
         let imgWrap = imgWrapper(this.className)
 
         let img = setElement("img", {
-            class: `${this.className}--img`,
+            class: `${this.className}__img`,
             src: this.props.thumbnail
         })
         imgWrap.append(img)
@@ -32,23 +32,42 @@ class ArticleItemComp extends HTMLElement {
         //Text
         let textContainer = setElement("article")
         let hgroup = setElement("hgroup")
-        let headline = setElement("h3").inner(this.props.title)
+        let linkToNYT = setElement("a", {
+            href: this.props.url,
+            target: "_blank"
+        }).inner(this.props.title)
+        let headline = setElement("h3", {
+            lang: "en"
+        })
+        let externalIcon = setElement("i", {
+            class: "fas fa-external"
+        })
+        headline.append(externalIcon, linkToNYT)
 
-        let byline = setElement("p").inner(this.formatDate() + " — " + this.props.byline)
+        let byline = setElement("p").inner(this.byline())
         clamp(byline, { clamp: 1 });
 
         hgroup.append(headline, byline)
 
-        let summary = setElement("p").inner(this.props.abstract)
+        let summary = setElement("p", {
+            class: "summary"
+        }).inner(this.props.abstract || "This article has no preview.")
         //clamp(summary, { clamp: 1 });
         textContainer.append(hgroup, summary)
 
+
+        let swipeBox = setElement("div", {
+            class: `${this.className}__swipe-box`,
+        })
+        let swipeIcon = setElement("p").inner("Save")
+        swipeBox.append(swipeIcon)
+
         //Append
-        this.append(imgWrap, textContainer)
+        this.append(imgWrap, textContainer, swipeBox)
 
         this.clampText(summary, hgroup)
 
-
+        this.handleSwipe(swipeBox)
     }
 
     clampText(textElm, occupiedSpace) {
@@ -62,6 +81,98 @@ class ArticleItemComp extends HTMLElement {
                 clamp: clampLines
             });
         }).observe(this)
+    }
+
+    byline() {
+        let byline = this.formatDate();
+        if (this.props.byline) {
+            byline += ` — ${this.props.byline}`
+        }
+
+        return byline
+
+    }
+
+    handleSwipe(swipeBox) {
+        const article = this;
+        let startX = 0;
+        let currentX = 0;
+        let dragging = false;
+        let maxDrag = 104; // 6.5rem in px (negative direction)
+        let saveThreshold = -90;
+        let hasSwipedLeft = false;
+        let moved = false;
+
+        article.addEventListener("click", (e) => {
+            let deltaX = e.clientX - startX;
+
+            // Deadzone handling (user ISN'T swiping)
+            if (Math.abs(deltaX) < 5) {
+                window.open(this.props.url, '_blank').focus();
+            }
+
+        });
+
+        article.addEventListener("pointerdown", (e) => {
+            startX = e.clientX;
+            dragging = true;
+            hasSwipedLeft = false;
+            moved = false;
+            article.style.transition = "none";
+            article.setPointerCapture(e.pointerId);
+        });
+
+        article.addEventListener("pointermove", (e) => {
+            if (!dragging) return;
+
+            let deltaX = e.clientX - startX;
+
+            if (deltaX < 0) {
+                currentX = deltaX;
+                if (currentX < -maxDrag) currentX = -maxDrag;
+                hasSwipedLeft = true;
+            } else if (hasSwipedLeft) {
+                currentX = deltaX;
+                if (currentX > 0) currentX = 0;
+            } else {
+                currentX = 0;
+            }
+
+            // Deadzone handling (user IS swiping)
+            if (Math.abs(deltaX) > 5) moved = true;
+
+            if (currentX <= saveThreshold) {
+                swipeBox.innerHTML = "Saved!";
+                swipeBox.classList.add("save-complete");
+            }
+
+            article.style.transform = `translateX(${currentX}px)`;
+        });
+
+        article.addEventListener("pointerup", (e) => {
+            dragging = false;
+            article.releasePointerCapture(e.pointerId);
+
+            if (currentX <= saveThreshold) {
+                console.log("Article saved!");
+            }
+
+            // Reset position and swipeBox
+            article.style.transition = "transform 0.2s ease";
+            article.style.transform = "translateX(0)";
+
+            // Optionally clear swipeBox content after reset
+            swipeBox.innerHTML = "";
+            swipeBox.classList.remove("save-complete");
+
+            // If no meaningful movement — simulate normal click if user tapped on a link
+            if (!moved) {
+                const targetElement = document.elementFromPoint(e.clientX, e.clientY);
+                if (targetElement && targetElement.closest("a")) {
+                    targetElement.click();
+                }
+            }
+        });
     }
 
     formatDate() {
@@ -82,6 +193,7 @@ class ArticleItemComp extends HTMLElement {
             this.classList.add(`${this.className}--${this.classModifier}`)
         }
     }
+
 }
 
 customElements.define(tagName, ArticleItemComp)

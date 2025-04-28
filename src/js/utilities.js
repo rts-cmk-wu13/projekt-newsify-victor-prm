@@ -43,27 +43,22 @@ export function newsList() {
         {
             title: "Europe",
             icon: "fas fa-euro",
-            query: `q=europe&api-key=${API_KEY}&page=1`
         },
         {
             title: "Health",
             icon: "fas fa-doctor",
-            query: `q=section_name:('health')&api-key=${API_KEY}`
         },
         {
             title: "Sports",
             icon: "fas fa-ball",
-            query: `q=section_name:('sports')&api-key=${API_KEY}`
         },
         {
             title: "Business",
             icon: "fas fa-chart",
-            query: `q=section_name:('business')&api-key=${API_KEY}`
         },
         {
             title: "Travel",
             icon: "far fa-map",
-            query: `q=section_name:('travel')&api-key=${API_KEY}`
         }
     ]
 

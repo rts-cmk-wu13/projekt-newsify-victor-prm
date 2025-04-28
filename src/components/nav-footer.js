@@ -16,9 +16,11 @@ class NavFooterComp extends HTMLElement {
 
         let links = this.linkArray();
         links.forEach(link => {
-            let linkItem = this.createNavLink(link.title, link.icon)
+            console.log(link)
+            let linkItem = this.createNavLink(link.title, link.href, link.icon)
             nav.append(linkItem)
         })
+
         this.append(nav)
     }
 
@@ -27,35 +29,35 @@ class NavFooterComp extends HTMLElement {
             {
                 title: "Home",
                 icon: "fas fa-home",
-                href: "#"
+                href: "/"
             },
             {
-                title: "Archive",
+                title: "Saved",
                 icon: "fas fa-bookmark",
-                href: "#"
+                href: "/saved"
             },
             {
                 title: "Popular",
                 icon: "fas fa-star",
-                href: "#"
+                href: "/popular"
             }
         ]
 
         return linkArray
     }
 
-    createNavLink(linkText, iconClass) {
-        let linkGroup = setElement("div")
+    createNavLink(linkText, href, iconClass) {
         let icon = setElement("i", {
             class: iconClass
         })
         let link = setElement("a", {
-            href: "#"
+            href: href,
         }).inner(linkText)
+        if (href === window.location.pathname) link.setAttribute('aria-current', 'page');
 
-        linkGroup.append(icon, link)
+        link.prepend(icon)
 
-        return linkGroup
+        return link
     }
 
     setClass() {

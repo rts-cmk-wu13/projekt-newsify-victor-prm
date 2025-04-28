@@ -1,4 +1,5 @@
 import { setElement, companyLogo, imgWrapper } from "../js/utilities";
+import logoSVG from '../assets/newsify_logo.svg';
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -24,21 +25,78 @@ class PageHeaderComp extends HTMLElement {
         let profileGroup = setElement("div", {
             class: `${this.className}__profile`
         })
-        let textGroup = setElement("div")
-        let greeting = setElement("p").inner("Good Morning")
-        let username = setElement("p").inner("Victor P.")
+        let user = "John D."
 
-        let imgWrap = imgWrapper(this.className)
-        let initials = setElement("p").inner("VP")
-        let profileImg = setElement("img")
+        let textGroup = setElement("div")
+        let greeting = setElement("p").inner(this.timeSpecificGreeting())
+        let username = setElement("p").inner(user)
 
         textGroup.append(greeting, username)
-        imgWrap.append(initials, profileImg)
-        
 
-        profileGroup.append(textGroup, imgWrap)
+        let settingsBtn = this.profileSettingsBtn(user);
+
+        profileGroup.append(textGroup, settingsBtn)
         this.append(logoWrap, profileGroup)
     }
+
+    profileSettingsBtn(user) {
+        let settingsBtn = setElement("button")
+        let imgSource;
+        //imgSource = logoSVG
+
+        if (!imgSource) {
+            let initialsText = user.split(" ")
+            initialsText = initialsText[0].substring(0,1)+ initialsText[1].substring(0,1);
+           
+            let initials = setElement("p").inner(initialsText)
+            settingsBtn.append(initials)
+
+
+            settingsBtn.style.backgroundColor = this.stringToHslColor(user, 100, 90)
+            initials.style.color = this.stringToHslColor(user, 100, 25)
+        } else {
+            let profileImg = setElement("img", {
+                src: imgSource
+            })
+            settingsBtn.append(profileImg)
+        }
+        return settingsBtn;
+    }
+
+    timeSpecificGreeting() {
+        var d = new Date();
+        var time = d.getHours();
+        time = 0
+        console.log(time)
+        let greeting
+
+
+        if (time < 5) {
+            greeting = "Hello there"
+        }
+        else if (time < 12) {
+            greeting = "Good Morning"
+        }
+        else if (time < 18) {
+            greeting = "Good Afternoon"
+        }
+        else {
+            greeting = "Good Evening"
+        }
+
+        return greeting;
+    }
+
+    stringToHslColor(str, s, l) {
+        var hash = 0;
+        for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        var h = hash % 360;
+        return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+    }
+
     setClass() {
         this.className = this.getAttribute('class') || tagName
         this.classModifier = this.getAttribute('class-mod')
