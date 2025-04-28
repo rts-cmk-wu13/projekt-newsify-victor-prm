@@ -40,15 +40,15 @@ export async function loadArticles(category) {
         //console.log(data)
 
         const articles = data.response.docs.map(article => ({
-                id: article.uri,  // or article.url or some unique identifier
-                title: getShortestText(article.headline.main, article.headline.print_headline),
-                abstract: article.abstract,
-                thumbnail: article.multimedia.thumbnail.url,
-                byline: article.byline.original,
-                category: category,
-                pub_date: article.pub_date,
-                url: article.web_url,
-            })
+            id: article.uri,  // or article.url or some unique identifier
+            title: getShortestText(article.headline.main, article.headline.print_headline),
+            abstract: article.abstract,
+            thumbnail: article.multimedia.thumbnail.url,
+            byline: article.byline.original,
+            category: category,
+            pub_date: article.pub_date,
+            url: article.web_url,
+        })
         );
 
         //console.log(articles)
@@ -60,6 +60,10 @@ export async function loadArticles(category) {
     } else {
         console.log("Loading articles from cache...");
         const cachedArticles = await getArticlesByCategory(category); // your IndexedDB read function
+        //Sort articles, newest first
+        cachedArticles.sort(function (b, a) {
+            return new Date(a.pub_date) - new Date(b.pub_date);
+        })
         return cachedArticles;
     }
 }
