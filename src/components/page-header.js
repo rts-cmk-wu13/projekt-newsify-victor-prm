@@ -1,4 +1,4 @@
-import { setElement, companyLogo, imgWrapper } from "../js/utilities";
+import { setElement, companyLogo, imgWrapper, sectionTitle, newsList } from "../js/utilities";
 import logoSVG from '../assets/newsify_logo.svg';
 
 let tagName = 'page-header'
@@ -34,8 +34,9 @@ class PageHeaderComp extends HTMLElement {
         textGroup.append(greeting, username)
 
         let settingsBtn = this.profileSettingsBtn(user);
+        let settingsDialog = this.settingsDialog()
 
-        profileGroup.append(textGroup, settingsBtn)
+        profileGroup.append(textGroup, settingsBtn,settingsDialog)
         this.append(logoWrap, profileGroup)
     }
 
@@ -46,8 +47,8 @@ class PageHeaderComp extends HTMLElement {
 
         if (!imgSource) {
             let initialsText = user.split(" ")
-            initialsText = initialsText[0].substring(0,1)+ initialsText[1].substring(0,1);
-           
+            initialsText = initialsText[0].substring(0, 1) + initialsText[1].substring(0, 1);
+
             let initials = setElement("p").inner(initialsText)
             settingsBtn.append(initials)
 
@@ -60,7 +61,26 @@ class PageHeaderComp extends HTMLElement {
             })
             settingsBtn.append(profileImg)
         }
+
+
         return settingsBtn;
+    }
+
+    settingsDialog() {
+        let settingsDialog = setElement("dialog",{
+            class: "settings-dialog",
+            open: ""
+        })
+        let settingsTitle = setElement("h2").inner("Settings")
+        settingsDialog.append(settingsTitle)
+
+        let news = newsList()
+        news.forEach(element => {
+            let section = sectionTitle(element.title,element.icon);
+            settingsDialog.append(section);
+        })
+
+        return settingsDialog
     }
 
     timeSpecificGreeting() {

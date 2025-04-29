@@ -30,12 +30,26 @@ export function companyLogo() {
     return logo;
 }
 
-export function imgWrapper(className){
+export function imgWrapper(className) {
     let imgWrap = setElement("figure", {
         class: `${className}__img-wrap`
     })
 
     return imgWrap;
+}
+
+export function sectionTitle(sectionTitle,iconSource) {
+    let titleGroup = setElement("hgroup",{
+         class: `section-title`
+    })
+    let categoryIcon = setElement("i", {
+        class: iconSource
+    })
+
+    let title = setElement("h2").inner(sectionTitle)
+    titleGroup.append(categoryIcon, title)
+
+    return titleGroup;
 }
 
 export function newsList() {

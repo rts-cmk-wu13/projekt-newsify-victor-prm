@@ -164,11 +164,7 @@ class ArticleItemComp extends HTMLElement {
             // Reset position and swipeBox
             article.style.transition = "transform 0.3s 2s ease";
             article.style.transform = "translateX(0)";
-
-            /*             // Optionally clear swipeBox content after reset
-                        swipeBox.innerHTML = "";
-                        swipeBox.classList.remove("save-complete"); */
-
+            
             // If no meaningful movement — simulate normal click if user tapped on a link
             if (!moved) {
                 const targetElement = document.elementFromPoint(e.clientX, e.clientY);
