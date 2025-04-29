@@ -7,7 +7,6 @@
 
     position: relative
     gap: var.$unit-1x
-    padding-bottom: var.$unit-2x
     //border-bottom: 1px solid var.$gray-050
 
     transition: transform 0.3s ease
@@ -98,5 +97,11 @@
             .summary
                 display: none !important
 
-    &:not(:last-of-type)
+    &:not(:last-of-type)::after
+        content: ""
+        position: absolute
+        bottom: 0-(var.$unit-2x)
+        height: 1px
+        width: 100%
         border-bottom: 1px solid var.$gray-050
+    

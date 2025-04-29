@@ -1,5 +1,4 @@
 import { setElement, companyLogo, imgWrapper, sectionTitle, newsList } from "../js/utilities";
-import logoSVG from '../assets/newsify_logo.svg';
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -15,7 +14,9 @@ class PageHeaderComp extends HTMLElement {
 
     render() {
         //Logo
-        let logoWrap = setElement("hgroup")
+        let logoWrap = setElement("hgroup",{
+            class: "logo-wrap"
+        })
         let logo = companyLogo();
         let logoText = setElement("h1").inner("Newsify")
         logoWrap.append(logo, logoText)
@@ -35,9 +36,14 @@ class PageHeaderComp extends HTMLElement {
 
         let settingsBtn = this.profileSettingsBtn(user);
         let settingsDialog = this.settingsDialog()
+        console.log(settingsDialog)
 
-        profileGroup.append(textGroup, settingsBtn,settingsDialog)
+        profileGroup.append(textGroup, settingsBtn, settingsDialog)
         this.append(logoWrap, profileGroup)
+
+
+        this.openCloseSettingsDialog(settingsBtn, settingsDialog)
+
     }
 
     profileSettingsBtn(user) {
@@ -62,21 +68,33 @@ class PageHeaderComp extends HTMLElement {
             settingsBtn.append(profileImg)
         }
 
-
         return settingsBtn;
     }
 
+    openCloseSettingsDialog(settingsBtn, settingsDialog) {
+        settingsBtn.onclick = () => {
+            console.log(settingsDialog.open)
+            if (settingsDialog.open) {
+                settingsDialog.close()
+            }
+            else {
+                settingsDialog.show()
+            }
+        }
+        let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
+        settingsDialog.style.height = modHeight + "px"
+    }
+
     settingsDialog() {
-        let settingsDialog = setElement("dialog",{
-            class: "settings-dialog",
-            open: ""
+        let settingsDialog = setElement("dialog", {
+            class: "settings-dialog"
         })
         let settingsTitle = setElement("h2").inner("Settings")
         settingsDialog.append(settingsTitle)
 
         let news = newsList()
         news.forEach(element => {
-            let section = sectionTitle(element.title,element.icon);
+            let section = sectionTitle(element.title, element.icon);
             settingsDialog.append(section);
         })
 

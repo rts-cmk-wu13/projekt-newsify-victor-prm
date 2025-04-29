@@ -148,10 +148,14 @@ class ArticleItemComp extends HTMLElement {
         article.addEventListener("pointerup", async (e) => {
             dragging = false;
             article.releasePointerCapture(e.pointerId);
+            
+
+            let transition = "";
 
             if (currentX <= saveThreshold) {
                 console.log("Article saved!");
                 swipeBox.innerHTML = "Saved!";
+                transition = "transform 0.3s 2s ease";
                 let isFavorited = await isArticleFavorited(this.props.id);
                 if (!isFavorited) {
                     favoriteArticle(this.props.id)
@@ -159,10 +163,12 @@ class ArticleItemComp extends HTMLElement {
                     unfavoriteArticle(this.props.id)
                 }
 
+            }else{
+                transition = "transform 0.3s ease";
             }
 
             // Reset position and swipeBox
-            article.style.transition = "transform 0.3s 2s ease";
+            article.style.transition = transition;
             article.style.transform = "translateX(0)";
             
             // If no meaningful movement — simulate normal click if user tapped on a link

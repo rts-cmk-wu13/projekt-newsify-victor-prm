@@ -2,25 +2,18 @@
 @use '../variables' as var
 
 .news-section
-    overflow-x: hidden;
+    overflow-x: hidden
 
-    hgroup, summary
+    summary
         @extend %fxrow
         gap: var.$unit-1x
         justify-content: space-between
         align-items: center
 
-    h2
-        font: var.$text-heading-3
-
-    hgroup>i
-
-        color: var.$color-primary-700
-
     summary
         cursor: pointer
         border-top: 1px solid var.$gray-200
-        padding: var.$unit-1x
+        padding: var.$unit-1x 0
 
         &::marker, &::-webkit-details-marker
             content: ""
@@ -28,13 +21,13 @@
             list-style: none
 
         i
-            width: var.$unit-3x
+            width: 1.25rem
             text-align: center
 
     .content-div
         @extend %fxcol
-        gap: var.$unit-2x
-        padding: var.$unit-2x var.$unit-1x
+        padding-block: var.$unit-2x
+        gap: var.$unit-4x
 
     &:last-of-type
         summary
@@ -55,7 +48,6 @@
                 border-bottom: 1px solid var.$gray-200
                 .fa-chevron-right
                     transform: rotate(90deg)
-                   
 
             &::details-content
                 opacity: 1
