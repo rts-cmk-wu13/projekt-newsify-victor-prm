@@ -66,10 +66,7 @@ class PageHeaderComp extends HTMLElement {
     timeSpecificGreeting() {
         var d = new Date();
         var time = d.getHours();
-        time = 0
-        console.log(time)
         let greeting
-
 
         if (time < 5) {
             greeting = "Hello there"

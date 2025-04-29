@@ -1,5 +1,6 @@
 import { imgWrapper, setElement } from '../js/utilities';
 import clamp from 'clamp-js';
+import { favoriteArticle, isArticleFavorited, unfavoriteArticle } from '../js/data/db';
 
 let tagName = 'article-item'
 class ArticleItemComp extends HTMLElement {
@@ -141,29 +142,32 @@ class ArticleItemComp extends HTMLElement {
             // Deadzone handling (user IS swiping)
             if (Math.abs(deltaX) > 5) moved = true;
 
-            if (currentX <= saveThreshold) {
-                swipeBox.innerHTML = "Saved!";
-                swipeBox.classList.add("save-complete");
-            }
-
             article.style.transform = `translateX(${currentX}px)`;
         });
 
-        article.addEventListener("pointerup", (e) => {
+        article.addEventListener("pointerup", async (e) => {
             dragging = false;
             article.releasePointerCapture(e.pointerId);
 
             if (currentX <= saveThreshold) {
                 console.log("Article saved!");
+                swipeBox.innerHTML = "Saved!";
+                let isFavorited = await isArticleFavorited(this.props.id);
+                if (!isFavorited) {
+                    favoriteArticle(this.props.id)
+                }else{
+                    unfavoriteArticle(this.props.id)
+                }
+
             }
 
             // Reset position and swipeBox
-            article.style.transition = "transform 0.2s ease";
+            article.style.transition = "transform 0.3s 2s ease";
             article.style.transform = "translateX(0)";
 
-            // Optionally clear swipeBox content after reset
-            swipeBox.innerHTML = "";
-            swipeBox.classList.remove("save-complete");
+            /*             // Optionally clear swipeBox content after reset
+                        swipeBox.innerHTML = "";
+                        swipeBox.classList.remove("save-complete"); */
 
             // If no meaningful movement — simulate normal click if user tapped on a link
             if (!moved) {
