@@ -36,7 +36,7 @@ class PageHeaderComp extends HTMLElement {
 
         let settingsBtn = this.profileSettingsBtn(user);
         let settingsDialog = this.settingsDialog()
-        console.log(settingsDialog)
+        //console.log(settingsDialog)
 
         profileGroup.append(textGroup, settingsBtn, settingsDialog)
         this.append(logoWrap, profileGroup)

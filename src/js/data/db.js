@@ -7,7 +7,7 @@ function openDB() {
         request.onupgradeneeded = (event) => {
             const db = event.target.result;
 
-            // Index for fast querying by category
+            // Add article store
             if (!db.objectStoreNames.contains("articles")) {
                 const articleStore = db.createObjectStore("articles", { keyPath: "id" });
                 articleStore.createIndex("published_date", "published_date", { unique: false });
@@ -46,13 +46,29 @@ export async function saveArticles(articleArray) {
 
 export async function getArticlesByCategory(category) {
     const db = await openDB();
-    const tx = db.transaction("articles", "readonly");
-    const store = tx.objectStore("articles");
+    const transaction = db.transaction("articles", "readwrite");
+    const store = transaction.objectStore("articles");
     const index = store.index("category");
 
     return new Promise((resolve, reject) => {
+        let weekInMillis = 7 * 24 * 60 * 60 * 1000;
+        let indexThreshold = 20
+
         const request = index.getAll(category);
-        request.onsuccess = () => resolve(request.result);
+        request.onsuccess = () => {
+            let articleArray = (request.result)
+
+            //Check if articles are older than a week
+            articleArray.forEach((article, index) => {
+                let articleDateInMillis = Math.floor(new Date(article.pub_date).getTime())
+                if ((Date.now() - articleDateInMillis > weekInMillis) || index >= indexThreshold) {
+                    console.log("Article is old and will be deleted")
+                    store.delete(article.id);
+                }
+
+            });
+            resolve(articleArray);
+        }
         request.onerror = () => reject(request.error);
     });
 }

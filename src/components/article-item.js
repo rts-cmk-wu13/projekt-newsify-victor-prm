@@ -15,7 +15,7 @@ class ArticleItemComp extends HTMLElement {
     }
 
     connectedCallback() {
-        console.log(this.props)
+        //console.log(this.props)
         this.setClass();
         this.render();
     }

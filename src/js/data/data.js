@@ -1,7 +1,7 @@
 import { saveArticles, getArticlesByCategory } from "./db";
 const k = import.meta.env.VITE_NYT_API_KEY
 
-const CACHE_EXPIRY_MINUTES = 2;
+const CACHE_EXPIRY_MINUTES = 1;
 const CACHE_KEY = "nytArticlesCacheTimestamp";
 
 function isCacheExpired() {
@@ -34,7 +34,10 @@ export async function loadArticles(category) {
     if (isCacheExpired()) {
         console.log("Fetching fresh articles from API...");
 
-        const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${category}&api-key=${k}&sort=newest&page=2`);
+        //Pages can be added with "&page=XYZ", but it seems to affect the results in "&page=1" is kept in there
+        let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${category}&begin_date=${dateStartLimit()}&api-key=${k}&sort=newest`
+        const response = await fetch(url);
+        //console.log(url)
         const data = await response.json();
 
         //console.log(data)
@@ -66,4 +69,17 @@ export async function loadArticles(category) {
         })
         return cachedArticles;
     }
+}
+
+function dateStartLimit() {
+    const today = new Date();
+    const aWeekAgo = new Date();
+    aWeekAgo.setDate(today.getDate() - 7);
+
+    const formatDate = (date) =>
+        date.toISOString().slice(0, 10).replace(/-/g, '');
+
+    const beginDate = formatDate(aWeekAgo);
+
+    return beginDate;
 }
