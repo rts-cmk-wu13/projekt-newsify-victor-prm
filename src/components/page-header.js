@@ -1,4 +1,4 @@
-import { setElement, companyLogo, imgWrapper, sectionTitle, newsList } from "../js/utilities";
+import { setElement, companyLogo, sectionTitle, categoryList } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -91,7 +91,7 @@ class PageHeaderComp extends HTMLElement {
         let settingsTitle = setElement("h2").inner("Settings")
         settingsDialog.append(settingsTitle)
 
-        let news = newsList()
+        let news = categoryList()
         news.forEach(element => {
             let listItem = setElement("div", {
                 class: "settings-item"

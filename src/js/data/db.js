@@ -51,7 +51,7 @@ export async function getArticlesByCategory(category) {
     const index = store.index("category");
 
     return new Promise((resolve, reject) => {
-        let weekInMillis = 7 * 24 * 60 * 60 * 1000;
+        let monthInMillis = 30 * 24 * 60 * 60 * 1000;
         let indexThreshold = 20
 
         const request = index.getAll(category);
@@ -61,7 +61,7 @@ export async function getArticlesByCategory(category) {
             //Check if articles are older than a week
             articleArray.forEach((article, index) => {
                 let articleDateInMillis = Math.floor(new Date(article.pub_date).getTime())
-                if ((Date.now() - articleDateInMillis > weekInMillis) || index >= indexThreshold) {
+                if ((Date.now() - articleDateInMillis > monthInMillis) || index >= indexThreshold) {
                     console.log("Article is old and will be deleted")
                     store.delete(article.id);
                 }

@@ -52,8 +52,8 @@ export function sectionTitle(sectionTitle,iconSource) {
     return titleGroup;
 }
 
-export function newsList() {
-    let newsList = [
+export function categoryList() {
+    let categoryList = [
         {
             title: "Europe",
             icon: "fas fa-euro",
@@ -76,7 +76,26 @@ export function newsList() {
         }
     ]
 
-    return newsList;
+    return categoryList;
+}
+
+export function popularList() {
+    let popularList = [
+        {
+            title: "Today",
+            icon: "fas fa-calendar-day",
+        },
+        {
+            title: "This Week",
+            icon: "fas fa-calendar-month",
+        },
+        {
+            title: "This Month",
+            icon: "fas fa-calendar",
+        },
+    ]
+
+    return popularList;
 }
 
 function allSections() {
