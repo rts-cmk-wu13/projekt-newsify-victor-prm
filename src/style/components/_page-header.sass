@@ -81,9 +81,17 @@
             background-color: rgba(white,0.25)
             backdrop-filter: blur(1px)
 
-
         &>h2
+            font: var.$text-heading-2
+            color: var.$color-primary-700
+
+            &>i
+                margin-right: var.$unit-1x
+
+        &>p
             margin-bottom: var.$unit-2x
+            font: var.$text-body-3
+            color: var.$gray-500
 
         .settings-item
             @extend %fxrow

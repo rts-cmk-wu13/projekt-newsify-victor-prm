@@ -88,8 +88,15 @@ class PageHeaderComp extends HTMLElement {
         let settingsDialog = setElement("dialog", {
             class: "settings-dialog"
         })
-        let settingsTitle = setElement("h2").inner("Settings")
-        settingsDialog.append(settingsTitle)
+        let settingsTitle = setElement("h2").inner("Profile Settings")
+        let settingsIcon = setElement("i",{
+            class: "fas fa-cog"
+        })
+        settingsTitle.prepend(settingsIcon)
+        let description = setElement("p").inner("Choose which categories you would like displayed on the home page")
+        settingsDialog.append(settingsTitle, description)
+
+       
 
         let news = categoryList()
         news.forEach(element => {
