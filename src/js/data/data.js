@@ -1,7 +1,7 @@
 import { saveArticles, getArticlesByCategory } from "./db";
 const k = import.meta.env.VITE_NYT_API_KEY
 
-const CACHE_EXPIRY_MINUTES = 1;
+const CACHE_EXPIRY_MINUTES = 240;
 const CACHE_KEY = "nytArticlesCacheTimestamp";
 
 function isCacheExpired() {

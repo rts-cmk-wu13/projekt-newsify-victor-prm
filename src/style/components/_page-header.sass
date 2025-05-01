@@ -76,3 +76,63 @@
 
         &[open]
             animation: fadeIn 0.3s ease-in forwards
+
+        &::backdrop
+            background-color: rgba(white,0.25)
+            backdrop-filter: blur(1px)
+
+
+        &>h2
+            margin-bottom: var.$unit-2x
+
+        .settings-item
+            @extend %fxrow
+            justify-content: space-between
+            gap: var.$unit-05x
+            align-items: center
+            border-top: 1px solid var.$gray-100
+            padding: var.$unit-1x 0
+
+            input
+                -webkit-appearance: none
+                -moz-appearance: none
+                appearance: none
+                position: relative
+                font-size: inherit
+                width: 2em
+                height: 1em
+                box-sizing: content-box
+                border: 1px solid var.$gray-100
+                background-color: var.$gray-300
+                border-radius: 1em
+                vertical-align: text-bottom
+                color: inherit
+                cursor: pointer
+
+            input:active
+                opacity: 0.8
+
+            input:before
+                content: ""
+                position: absolute
+                top: 50%
+                left: 0
+                transform: translate(0, -50%)
+                box-sizing: border-box
+                width: 0.7em
+                height: 0.7em
+                margin: 0 0.15em
+                border: 1px solid var.$gray-100
+                border-radius: 50%
+                background-color: white
+                transition: 0.3s left
+
+            input:checked
+                background-color: var.$color-primary-500
+                transition: 0.3s background
+
+            input:checked:before
+                left: 1em
+
+dialog::backdrop
+    background-color: salmon

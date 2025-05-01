@@ -14,7 +14,7 @@ class PageHeaderComp extends HTMLElement {
 
     render() {
         //Logo
-        let logoWrap = setElement("hgroup",{
+        let logoWrap = setElement("hgroup", {
             class: "logo-wrap"
         })
         let logo = companyLogo();
@@ -42,7 +42,7 @@ class PageHeaderComp extends HTMLElement {
         this.append(logoWrap, profileGroup)
 
 
-        this.openCloseSettingsDialog(settingsBtn, settingsDialog)
+        this.toggleSettingsDialog(settingsBtn, settingsDialog)
 
     }
 
@@ -71,14 +71,13 @@ class PageHeaderComp extends HTMLElement {
         return settingsBtn;
     }
 
-    openCloseSettingsDialog(settingsBtn, settingsDialog) {
+    toggleSettingsDialog(settingsBtn, settingsDialog) {
         settingsBtn.onclick = () => {
-            console.log(settingsDialog.open)
             if (settingsDialog.open) {
                 settingsDialog.close()
             }
             else {
-                settingsDialog.show()
+                settingsDialog.showModal()
             }
         }
         let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
@@ -94,9 +93,31 @@ class PageHeaderComp extends HTMLElement {
 
         let news = newsList()
         news.forEach(element => {
+            let listItem = setElement("div", {
+                class: "settings-item"
+            })
             let section = sectionTitle(element.title, element.icon);
-            settingsDialog.append(section);
+            let toggleInput = setElement("input", {
+                type: "checkbox",
+                role: "switch",
+                id: "hellohello",
+
+            })
+            toggleInput.checked = true
+            listItem.append(section, toggleInput)
+            settingsDialog.append(listItem);
         })
+
+
+        settingsDialog.onclick = (event) => {
+            var rect = settingsDialog.getBoundingClientRect();
+            var isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+                rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+            if (!isInDialog) {
+                settingsDialog.close();
+            }
+        }
+
 
         return settingsDialog
     }
