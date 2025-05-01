@@ -51,7 +51,7 @@ export async function getArticlesByCategory(category) {
     const index = store.index("category");
 
     return new Promise((resolve, reject) => {
-        let monthInMillis = 30 * 24 * 60 * 60 * 1000;
+        let monthInMillis = 31 * 24 * 60 * 60 * 1000;
         let indexThreshold = 20
 
         const request = index.getAll(category);
