@@ -87,7 +87,7 @@ export function popularList() {
         },
         {
             title: "This Week",
-            icon: "fas fa-calendar-month",
+            icon: "fas fa-calendar-week",
         },
         {
             title: "This Month",
