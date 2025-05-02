@@ -23,6 +23,11 @@ let favorites = categoryList().concat(popularList())
 let favoritesToShow = await getAllFavoriteCategories()
 favorites = favorites.filter(item => favoritesToShow.includes(item.title))
 
+if(favorites.length === 0){
+    let msg = setElement("p").inner("You haven't saved any articles yet!")
+    main.append(msg)
+}
+
 favorites.forEach(element => {
     let category = element.title
     if (element.title === "Today" || element.title === "Week" || element.title === "Month") {

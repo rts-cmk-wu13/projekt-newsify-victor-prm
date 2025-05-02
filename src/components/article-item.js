@@ -60,7 +60,9 @@ class ArticleItemComp extends HTMLElement {
         let swipeBox = setElement("div", {
             class: `${this.className}__swipe-box`,
         })
-        let swipeIcon = setElement("p").inner("Save")
+        let swipeIcon = setElement("i",{
+            class: "far fa-bookmark"
+        })
         swipeBox.append(swipeIcon)
 
         //Append
@@ -68,7 +70,7 @@ class ArticleItemComp extends HTMLElement {
 
         this.clampText(summary, hgroup)
 
-        this.handleSwipe(swipeBox)
+        this.handleSwipe(swipeBox, swipeIcon)
     }
 
     clampText(textElm, occupiedSpace) {
@@ -94,7 +96,7 @@ class ArticleItemComp extends HTMLElement {
 
     }
 
-    handleSwipe(swipeBox) {
+    handleSwipe(swipeBox, swipeIcon) {
         const article = this;
         let startX = 0;
         let currentX = 0;
@@ -154,13 +156,14 @@ class ArticleItemComp extends HTMLElement {
 
             if (currentX <= saveThreshold) {
                 console.log("Article saved!");
-                swipeBox.innerHTML = "Saved!";
+                swipeIcon.className = "fas fa-bookmark";
                 transition = "transform 0.3s 2s ease";
                 let isFavorited = await isArticleFavorited(this.props.id);
                 if (!isFavorited) {
                     favoriteArticle(this.props)
                 }else{
                     unfavoriteArticle(this.props.id)
+                    //if(window.location.pathname == "/saved") console.log()//populateSaved()
                 }
 
             }else{
