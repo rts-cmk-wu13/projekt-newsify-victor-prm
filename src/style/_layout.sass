@@ -14,6 +14,12 @@ main
     @extend %fxcol
     padding: var.$unit-1x var.$unit-2x 8rem
 
+    opacity: 0
+    transition: opacity 300ms
+
+    &.loaded
+        opacity: 1
+
 .section-title
     @extend %fxrow
     gap: var.$unit-1x

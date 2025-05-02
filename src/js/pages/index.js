@@ -19,24 +19,34 @@ contentDiv.append(header, main, footer)
 header.append(setElement(PageHeader))
 
 //Populate Main
-let news = categoryList();
+export async function populateHome() {
+    main.innerHTML = ""
 
-news.forEach(element => {
-    let section = setElement(NewsSection)
+    let news = categoryList();
+    news.forEach(element => {
+        let section = setElement(NewsSection)
 
-    section.dataObject = element;
-    main.append(section);
+        section.dataObject = element;
+        main.append(section);
 
-    let contentElm = section.querySelector(".content-div")
-    fetchArticlesByCategory(element.title).then(items => {
-        items.forEach(item => {
-            let article = setElement(ArticleItem)
-            article.dataObject = item;
-            contentElm.append(article)
-            section.firstChild.setAttribute("open","")
+        let contentElm = section.querySelector(".content-div")
+
+        fetchArticlesByCategory(element.title).then(items => {
+            items.forEach(item => {
+                let article = setElement(ArticleItem)
+                article.dataObject = item;
+                contentElm.append(article)
+
+                article.addEventListener("update", () => {
+                    main.classList.remove("loaded")
+                    setTimeout(populateHome, 400)
+                })
+            })
         })
-    })
-});
+        main.classList.add("loaded")
+    });
+}
+populateHome();
 
 //Populate Footer
 footer.append(setElement(NavFooter))
