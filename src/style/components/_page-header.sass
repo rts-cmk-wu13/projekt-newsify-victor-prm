@@ -5,15 +5,14 @@
     @extend %fxrow
     gap: var.$unit-2x
     height: var.$unit-4x
-    margin: var.$unit-3x
+    margin: var.$unit-3x var.$unit-2x var.$unit-2x
     align-items: center
     justify-content: space-between
 
-    hgroup
+    .logo-wrap
         @extend %fxrow
         gap: var.$unit-1x
         height: 100%
-        padding-inline: var.$unit-1x
 
         h1
             font: var.$text-heading-2
@@ -42,12 +41,106 @@
         border: none
 
         overflow: hidden
+        anchor-name: --settingsDialog
 
         p
             font-weight: 700
             width: fit-content
             color: var.$gray-600
-        
+
         img
             width: 100%
             height: 100%
+
+    .settings-dialog
+        position: fixed
+        position-anchor: --settingsDialog
+
+        top: anchor(--settingsDialog bottom)
+        left: 50%
+        transform: translate(-50%, 0)
+        z-index: 200
+
+        width: 100%
+        max-width: var.$max-width-page
+
+        margin-top: var.$unit-1x
+        padding: var.$unit-2x var.$unit-2x
+
+        background: var.$gray-050
+        background: linear-gradient(0deg,var.$gray-050 0%, white 100%)
+
+        box-shadow: 0 0-(var.$unit-1x) var.$unit-8x var.$unit-025x rgba(var.$gray-900,0.2)
+        border-radius: var.$unit-1x
+        border: none
+
+        &[open]
+            animation: fadeIn 0.3s ease-in forwards
+
+        &::backdrop
+            background-color: rgba(white,0.25)
+            backdrop-filter: blur(1px)
+
+        &>h2
+            font: var.$text-heading-2
+            color: var.$color-primary-700
+
+            &>i
+                margin-right: var.$unit-1x
+
+        &>p
+            margin-bottom: var.$unit-2x
+            font: var.$text-body-3
+            color: var.$gray-500
+
+        .settings-item
+            @extend %fxrow
+            justify-content: space-between
+            gap: var.$unit-05x
+            align-items: center
+            border-top: 1px solid var.$gray-100
+            padding: var.$unit-1x 0
+
+            input
+                -webkit-appearance: none
+                -moz-appearance: none
+                appearance: none
+                position: relative
+                font-size: inherit
+                width: 2em
+                height: 1em
+                box-sizing: content-box
+                border: 1px solid var.$gray-100
+                background-color: var.$gray-300
+                border-radius: 1em
+                vertical-align: text-bottom
+                color: inherit
+                cursor: pointer
+
+            input:active
+                opacity: 0.8
+
+            input:before
+                content: ""
+                position: absolute
+                top: 50%
+                left: 0
+                transform: translate(0, -50%)
+                box-sizing: border-box
+                width: 0.7em
+                height: 0.7em
+                margin: 0 0.15em
+                border: 1px solid var.$gray-100
+                border-radius: 50%
+                background-color: white
+                transition: 0.3s left
+
+            input:checked
+                background-color: var.$color-primary-500
+                transition: 0.3s background
+
+            input:checked:before
+                left: 1em
+
+dialog::backdrop
+    background-color: salmon

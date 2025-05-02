@@ -16,7 +16,7 @@ class NavFooterComp extends HTMLElement {
 
         let links = this.linkArray();
         links.forEach(link => {
-            console.log(link)
+            //console.log(link)
             let linkItem = this.createNavLink(link.title, link.href, link.icon)
             nav.append(linkItem)
         })

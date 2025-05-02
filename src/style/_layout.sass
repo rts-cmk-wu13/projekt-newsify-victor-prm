@@ -12,4 +12,17 @@ body
 
 main
     @extend %fxcol
-    padding: var.$unit-1x var.$unit-2x var.$unit-4x
+    padding: var.$unit-1x var.$unit-2x 8rem
+
+.section-title
+    @extend %fxrow
+    gap: var.$unit-1x
+    align-items: center
+
+    h2
+        font: var.$text-heading-3
+        text-transform: uppercase
+    i
+        color: var.$color-primary-700
+        width: 1.25rem
+        text-align: center

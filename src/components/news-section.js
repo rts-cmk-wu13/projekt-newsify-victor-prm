@@ -1,4 +1,4 @@
-import { setElement } from '../js/utilities';
+import { sectionTitle, setElement } from '../js/utilities';
 let tagName = 'news-section'
 class NewsSectionComp extends HTMLElement {
 
@@ -14,7 +14,6 @@ class NewsSectionComp extends HTMLElement {
     connectedCallback() {
         this.setClass();
         this.render();
-
     }
 
     render() {
@@ -23,13 +22,7 @@ class NewsSectionComp extends HTMLElement {
 
         //Summary
         let summary = setElement("summary")
-        let titleGroup = setElement("hgroup")
-        let categoryIcon = setElement("i", {
-            class: this.props.icon
-        })
-
-        let title = setElement("h2").inner(this.props.title)
-        titleGroup.append(categoryIcon, title)
+        let titleGroup = sectionTitle(this.props.title, this.props.icon)
 
         let icon = setElement("i", {
             class: "fas fa-chevron-right"
@@ -44,6 +37,7 @@ class NewsSectionComp extends HTMLElement {
         this.append(accordion)
 
     }
+    
 
     setClass() {
         this.className = this.getAttribute('class') || tagName

@@ -1,11 +1,11 @@
-import '../style/main.sass'
-import { newsList } from './utilities';
-import { setElement } from './utilities';
-import { PageHeader } from '../components/page-header.js'
-import { NewsSection } from '../components/news-section.js';
-import { ArticleItem } from '../components/article-item.js';
-import { loadArticles } from './data/data.js';
-import { NavFooter } from '../components/nav-footer.js';
+import '../../style/main.sass'
+import { categoryList, popularList } from '../utilities.js';
+import { setElement } from '../utilities.js';
+import { PageHeader } from '../../components/page-header.js'
+import { NewsSection } from '../../components/news-section.js';
+import { ArticleItem } from '../../components/article-item.js';
+import { fetchArticlesByPopularity } from '../data/data.js';
+import { NavFooter } from '../../components/nav-footer.js';
 
 
 //Setup
@@ -19,7 +19,8 @@ contentDiv.append(header, main, footer)
 header.append(setElement(PageHeader))
 
 //Populate Main
-let news = newsList();
+let news = popularList();
+
 news.forEach(element => {
     let section = setElement(NewsSection)
 
@@ -27,12 +28,13 @@ news.forEach(element => {
     main.append(section);
 
     let contentElm = section.querySelector(".content-div")
-    loadArticles(element.title).then(items => {
+    fetchArticlesByPopularity(element.title).then(items => {
+        console.log(items)
         items.forEach(item => {
             let article = setElement(ArticleItem)
             article.dataObject = item;
             contentElm.append(article)
-            section.firstChild.setAttribute("open","")
+            section.firstChild.setAttribute("open", "")
         })
     })
     //fetchArticlesBySection(element.title, element.query, contentElm)

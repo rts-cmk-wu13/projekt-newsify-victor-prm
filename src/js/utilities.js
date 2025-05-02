@@ -30,7 +30,7 @@ export function companyLogo() {
     return logo;
 }
 
-export function imgWrapper(className){
+export function imgWrapper(className) {
     let imgWrap = setElement("figure", {
         class: `${className}__img-wrap`
     })
@@ -38,8 +38,22 @@ export function imgWrapper(className){
     return imgWrap;
 }
 
-export function newsList() {
-    let newsList = [
+export function sectionTitle(sectionTitle,iconSource) {
+    let titleGroup = setElement("hgroup",{
+         class: `section-title`
+    })
+    let categoryIcon = setElement("i", {
+        class: iconSource
+    })
+
+    let title = setElement("h2").inner(sectionTitle)
+    titleGroup.append(categoryIcon, title)
+
+    return titleGroup;
+}
+
+export function categoryList() {
+    let categoryList = [
         {
             title: "Europe",
             icon: "fas fa-euro",
@@ -62,7 +76,26 @@ export function newsList() {
         }
     ]
 
-    return newsList;
+    return categoryList;
+}
+
+export function popularList() {
+    let popularList = [
+        {
+            title: "Today",
+            icon: "fas fa-calendar-day",
+        },
+        {
+            title: "This Week",
+            icon: "fas fa-calendar-week",
+        },
+        {
+            title: "This Month",
+            icon: "fas fa-calendar",
+        },
+    ]
+
+    return popularList;
 }
 
 function allSections() {

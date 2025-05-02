@@ -1,5 +1,4 @@
-import { setElement, companyLogo, imgWrapper } from "../js/utilities";
-import logoSVG from '../assets/newsify_logo.svg';
+import { setElement, companyLogo, sectionTitle, categoryList } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -15,7 +14,9 @@ class PageHeaderComp extends HTMLElement {
 
     render() {
         //Logo
-        let logoWrap = setElement("hgroup")
+        let logoWrap = setElement("hgroup", {
+            class: "logo-wrap"
+        })
         let logo = companyLogo();
         let logoText = setElement("h1").inner("Newsify")
         logoWrap.append(logo, logoText)
@@ -34,9 +35,15 @@ class PageHeaderComp extends HTMLElement {
         textGroup.append(greeting, username)
 
         let settingsBtn = this.profileSettingsBtn(user);
+        let settingsDialog = this.settingsDialog()
+        //console.log(settingsDialog)
 
-        profileGroup.append(textGroup, settingsBtn)
+        profileGroup.append(textGroup, settingsBtn, settingsDialog)
         this.append(logoWrap, profileGroup)
+
+
+        this.toggleSettingsDialog(settingsBtn, settingsDialog)
+
     }
 
     profileSettingsBtn(user) {
@@ -46,8 +53,8 @@ class PageHeaderComp extends HTMLElement {
 
         if (!imgSource) {
             let initialsText = user.split(" ")
-            initialsText = initialsText[0].substring(0,1)+ initialsText[1].substring(0,1);
-           
+            initialsText = initialsText[0].substring(0, 1) + initialsText[1].substring(0, 1);
+
             let initials = setElement("p").inner(initialsText)
             settingsBtn.append(initials)
 
@@ -60,16 +67,72 @@ class PageHeaderComp extends HTMLElement {
             })
             settingsBtn.append(profileImg)
         }
+
         return settingsBtn;
+    }
+
+    toggleSettingsDialog(settingsBtn, settingsDialog) {
+        settingsBtn.onclick = () => {
+            if (settingsDialog.open) {
+                settingsDialog.close()
+            }
+            else {
+                settingsDialog.showModal()
+            }
+        }
+        let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
+        settingsDialog.style.height = modHeight + "px"
+    }
+
+    settingsDialog() {
+        let settingsDialog = setElement("dialog", {
+            class: "settings-dialog"
+        })
+        let settingsTitle = setElement("h2").inner("Profile Settings")
+        let settingsIcon = setElement("i",{
+            class: "fas fa-cog"
+        })
+        settingsTitle.prepend(settingsIcon)
+        let description = setElement("p").inner("Choose which categories you would like displayed on the home page")
+        settingsDialog.append(settingsTitle, description)
+
+       
+
+        let news = categoryList()
+        news.forEach(element => {
+            let listItem = setElement("div", {
+                class: "settings-item"
+            })
+            let section = sectionTitle(element.title, element.icon);
+            let toggleInput = setElement("input", {
+                type: "checkbox",
+                role: "switch",
+                id: "hellohello",
+
+            })
+            toggleInput.checked = true
+            listItem.append(section, toggleInput)
+            settingsDialog.append(listItem);
+        })
+
+
+        settingsDialog.onclick = (event) => {
+            var rect = settingsDialog.getBoundingClientRect();
+            var isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+                rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+            if (!isInDialog) {
+                settingsDialog.close();
+            }
+        }
+
+
+        return settingsDialog
     }
 
     timeSpecificGreeting() {
         var d = new Date();
         var time = d.getHours();
-        time = 0
-        console.log(time)
         let greeting
-
 
         if (time < 5) {
             greeting = "Hello there"
