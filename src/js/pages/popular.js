@@ -4,7 +4,7 @@ import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
-import { loadArticlesByCategory, loadArticlesByPopularity } from '../data/data.js';
+import { fetchArticlesByPopularity } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
 
 
@@ -28,7 +28,7 @@ news.forEach(element => {
     main.append(section);
 
     let contentElm = section.querySelector(".content-div")
-    loadArticlesByPopularity(element.title).then(items => {
+    fetchArticlesByPopularity(element.title).then(items => {
         console.log(items)
         items.forEach(item => {
             let article = setElement(ArticleItem)

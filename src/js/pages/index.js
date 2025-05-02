@@ -4,7 +4,7 @@ import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
-import { loadArticlesByCategory } from '../data/data.js';
+import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
 
 
@@ -28,7 +28,7 @@ news.forEach(element => {
     main.append(section);
 
     let contentElm = section.querySelector(".content-div")
-    loadArticlesByCategory(element.title).then(items => {
+    fetchArticlesByCategory(element.title).then(items => {
         items.forEach(item => {
             let article = setElement(ArticleItem)
             article.dataObject = item;
@@ -36,7 +36,6 @@ news.forEach(element => {
             section.firstChild.setAttribute("open","")
         })
     })
-    //fetchArticlesBySection(element.title, element.query, contentElm)
 });
 
 //Populate Footer

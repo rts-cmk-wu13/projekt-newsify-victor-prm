@@ -29,7 +29,7 @@ function getShortestText(text1, text2) {
     return main_text;
 }
 
-export async function loadArticlesByCategory(category) {
+export async function fetchArticlesByCategory(category) {
     if (isCacheExpired("articlesCategoryTimestamp")) {
         console.log("Fetching fresh articles from API...");
 
@@ -56,15 +56,16 @@ export async function loadArticlesByCategory(category) {
                     url: article.web_url,
                 };
             });
-        console.log(articles)
+        //console.log(articles)
 
-        //await saveArticles(articles); // your IndexedDB save function
+        await saveArticles(articles); // your IndexedDB save function
         updateCacheTimestamp("articlesCategoryTimestamp");
 
         return articles;
     } else {
         console.log("Loading articles from cache...");
         const cachedArticles = await getArticlesByCategory(category); // your IndexedDB read function
+        console.log(cachedArticles)
         //Sort articles, newest first
         cachedArticles.sort(function (b, a) {
             return new Date(a.pub_date) - new Date(b.pub_date);
@@ -88,7 +89,7 @@ function dateStartLimit() {
 
 
 
-export async function loadArticlesByPopularity(period) {
+export async function fetchArticlesByPopularity(period) {
     if (isCacheExpired("articlesPopularTimestamp")) {
         console.log("Fetching fresh articles from API...");
 

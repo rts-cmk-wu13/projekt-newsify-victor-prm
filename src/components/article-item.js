@@ -158,7 +158,7 @@ class ArticleItemComp extends HTMLElement {
                 transition = "transform 0.3s 2s ease";
                 let isFavorited = await isArticleFavorited(this.props.id);
                 if (!isFavorited) {
-                    favoriteArticle(this.props.id)
+                    favoriteArticle(this.props)
                 }else{
                     unfavoriteArticle(this.props.id)
                 }

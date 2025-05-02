@@ -4,9 +4,9 @@ import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
-import { loadArticlesByCategory, loadArticlesByPopularity } from '../data/data.js';
+import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
-import { getArticlesByCategory } from '../data/db.js';
+import { getAllFavoriteCategories, getArticlesByCategory, getFavoritesByCategory } from '../data/db.js';
 
 //Setup
 let contentDiv = document.querySelector('#app');
@@ -19,19 +19,25 @@ contentDiv.append(header, main, footer)
 header.append(setElement(PageHeader))
 
 //Populate Main
-let news = categoryList().concat(popularList())
-//console.log(news)
+let favorites = categoryList().concat(popularList())
+let favoritesToShow = await getAllFavoriteCategories()
+favorites = favorites.filter(item => favoritesToShow.includes(item.title))
 
+favorites.forEach(element => {
+    let category = element.title
+    if (element.title === "Today" || element.title === "Week" || element.title === "Month") {
+        element.title = "Popular"
+        element.icon = "far fa-star"
+    }
 
-news.forEach(element => {
     let section = setElement(NewsSection)
 
     section.dataObject = element;
     main.append(section);
 
     let contentElm = section.querySelector(".content-div")
-    getArticlesByCategory(element.title).then(items => {
-        //console.log(items)
+    getFavoritesByCategory(category).then(items => {
+        console.log(items)
         items.forEach(item => {
             let article = setElement(ArticleItem)
             article.dataObject = item;

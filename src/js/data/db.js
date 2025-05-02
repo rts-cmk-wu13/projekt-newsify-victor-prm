@@ -1,7 +1,7 @@
 function openDB() {
     return new Promise((resolve, reject) => {
         //The first argument is the database name, and the second argument is the database version.
-        const request = indexedDB.open("articlesNYT", 2);
+        const request = indexedDB.open("articlesNYT", 1);
 
         //Define object stores, The request.onupgradeneeded event is triggered when the version number changes.
         request.onupgradeneeded = (event) => {
@@ -16,7 +16,9 @@ function openDB() {
 
             // Now add favorites store
             if (!db.objectStoreNames.contains("favorites")) {
-                db.createObjectStore("favorites", { keyPath: "id" });
+                const favoriteStore = db.createObjectStore("favorites", { keyPath: "id" });
+                favoriteStore.createIndex("published_date", "published_date", { unique: false });
+                favoriteStore.createIndex("category", "category", { unique: false });
             }
         };
 
@@ -91,16 +93,30 @@ export async function getAllArticles() {
     });
 }
 
-export async function favoriteArticle(id) {
+export async function favoriteArticle(article) {
     const db = await openDB();
     const transaction = db.transaction(["favorites"], "readwrite");
     const store = transaction.objectStore("favorites");
-    store.put({ id, favoritedAt: new Date().toISOString() });
+    /* store.put({ 
+        id, favoritedAt: new Date().toISOString() 
+    }); */
+    store.put({ 
+        id: article.id,
+        title: article.title,
+        abstract: article.abstract,
+        thumbnail: article.thumbnail,
+        byline: article.byline,
+        category: article.category,
+        pub_date: article.pub_date,
+        url: article.url,
+        favoritedAt: new Date().toISOString() 
+    }); 
+
     return transaction.complete;
 }
 
 export async function unfavoriteArticle(id) {
-    const db = await openDB();
+    const db = await openDB(); 
     const transaction = db.transaction(["favorites"], "readwrite");
     const store = transaction.objectStore("favorites");
     store.delete(id);
@@ -119,4 +135,39 @@ export async function isArticleFavorited(id) {
     });
 }
 
+export async function getFavoritesByCategory(category) {
+    const db = await openDB();
+    const transaction = db.transaction("favorites", "readonly");
+    const store = transaction.objectStore("favorites");
+    const categoryIndex = store.index("category");
 
+    return new Promise((resolve, reject) => {
+        const request = categoryIndex.getAll(category);
+
+        request.onsuccess = () => {
+            resolve(request.result);
+        };
+
+        request.onerror = () => {
+            reject(request.error);
+        };
+    });
+}
+
+export async function getAllFavoriteCategories() {
+    const db = await openDB();
+    const transaction = db.transaction("favorites", "readonly");
+    const store = transaction.objectStore("favorites");
+    const request = store.getAll();
+
+    return new Promise((resolve, reject) => {
+        request.onsuccess = () => {
+            const categories = [...new Set(request.result.map(a => a.category))];
+            resolve(categories);
+        };
+
+        request.onerror = () => {
+            reject(request.error);
+        };
+    });
+}
