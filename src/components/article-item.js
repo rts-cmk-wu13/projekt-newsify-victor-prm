@@ -2,6 +2,7 @@ import { imgWrapper, setElement } from '../js/utilities';
 import clamp from 'clamp-js';
 import { favoriteArticle, isArticleFavorited, unfavoriteArticle } from '../js/data/db';
 
+
 let tagName = 'article-item'
 class ArticleItemComp extends HTMLElement {
 
@@ -156,15 +157,18 @@ class ArticleItemComp extends HTMLElement {
 
             if (currentX <= saveThreshold) {
                 console.log("Article saved!");
+                const delayTime = 2000;
+                const transitionTime = 300;
                 swipeIcon.className = "fas fa-bookmark";
-                transition = "transform 0.3s 2s ease";
+                transition = `transform ${transitionTime}ms ${delayTime}ms ease`;
                 let isFavorited = await isArticleFavorited(this.props.id);
                 if (!isFavorited) {
                     favoriteArticle(this.props)
                 }else{
                     unfavoriteArticle(this.props.id)
-                    //if(window.location.pathname == "/saved") console.log()//populateSaved()
                 }
+
+                setTimeout(() => {this.dispatchEvent(new Event("update"))},delayTime+transitionTime+100)
 
             }else{
                 transition = "transform 0.3s ease";

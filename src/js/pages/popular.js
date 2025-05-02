@@ -19,26 +19,35 @@ contentDiv.append(header, main, footer)
 header.append(setElement(PageHeader))
 
 //Populate Main
-let news = popularList();
+export async function populatePopular() {
+    main.innerHTML = ""
+    
+    let news = popularList();
+    news.forEach(element => {
+        let section = setElement(NewsSection)
 
-news.forEach(element => {
-    let section = setElement(NewsSection)
+        section.dataObject = element;
+        main.append(section);
 
-    section.dataObject = element;
-    main.append(section);
+        let contentElm = section.querySelector(".content-div")
+        fetchArticlesByPopularity(element.title).then(items => {
+            console.log(items)
+            items.forEach(item => {
+                let article = setElement(ArticleItem)
+                article.dataObject = item;
+                contentElm.append(article)
+                section.firstChild.setAttribute("open", "")
 
-    let contentElm = section.querySelector(".content-div")
-    fetchArticlesByPopularity(element.title).then(items => {
-        console.log(items)
-        items.forEach(item => {
-            let article = setElement(ArticleItem)
-            article.dataObject = item;
-            contentElm.append(article)
-            section.firstChild.setAttribute("open", "")
+                article.addEventListener("update", () => {
+                    main.classList.remove("loaded")
+                    setTimeout(populatePopular, 300)
+                })
+            })
         })
-    })
-    //fetchArticlesBySection(element.title, element.query, contentElm)
-});
+        main.classList.add("loaded")
+    });
+}
+populatePopular();
 
 //Populate Footer
 footer.append(setElement(NavFooter))

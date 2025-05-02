@@ -4,9 +4,8 @@ import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
-import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
-import { getAllFavoriteCategories, getArticlesByCategory, getFavoritesByCategory } from '../data/db.js';
+import { getAllFavoriteCategories, getFavoritesByCategory } from '../data/db.js';
 
 //Setup
 let contentDiv = document.querySelector('#app');
@@ -19,39 +18,49 @@ contentDiv.append(header, main, footer)
 header.append(setElement(PageHeader))
 
 //Populate Main
-let favorites = categoryList().concat(popularList())
-let favoritesToShow = await getAllFavoriteCategories()
-favorites = favorites.filter(item => favoritesToShow.includes(item.title))
+export async function populateSaved() {
+    main.innerHTML = ""
 
-if(favorites.length === 0){
-    let msg = setElement("p").inner("You haven't saved any articles yet!")
-    main.append(msg)
-}
+    let favorites = categoryList().concat(popularList())
+    let favoritesToShow = await getAllFavoriteCategories()
+    favorites = favorites.filter(item => favoritesToShow.includes(item.title))
 
-favorites.forEach(element => {
-    let category = element.title
-    if (element.title === "Today" || element.title === "Week" || element.title === "Month") {
-        element.title = "Popular"
-        element.icon = "far fa-star"
+    if (favorites.length === 0) {
+        let msg = setElement("p").inner("You haven't saved any articles yet!")
+        main.append(msg)
     }
 
-    let section = setElement(NewsSection)
+    favorites.forEach(element => {
+        let category = element.title
+        if (element.title === "Today" || element.title === "Week" || element.title === "Month") {
+            element.title = "Popular"
+            element.icon = "far fa-star"
+        }
 
-    section.dataObject = element;
-    main.append(section);
+        let section = setElement(NewsSection)
 
-    let contentElm = section.querySelector(".content-div")
-    getFavoritesByCategory(category).then(items => {
-        console.log(items)
-        items.forEach(item => {
-            let article = setElement(ArticleItem)
-            article.dataObject = item;
-            contentElm.append(article)
-            section.firstChild.setAttribute("open", "")
+        section.dataObject = element;
+        main.append(section);
+
+        let contentElm = section.querySelector(".content-div")
+        getFavoritesByCategory(category).then(items => {
+            console.log(items)
+            items.forEach(item => {
+                let article = setElement(ArticleItem)
+                article.dataObject = item;
+                contentElm.append(article)
+                section.firstChild.setAttribute("open", "")
+
+                article.addEventListener("update", () => {
+                    main.classList.remove("loaded")
+                    setTimeout(populateSaved, 500)
+                })
+            })
         })
-    })
-    //fetchArticlesBySection(element.title, element.query, contentElm)
-});
+        main.classList.add("loaded")
+    });
+}
+populateSaved();
 
 //Populate Footer
 footer.append(setElement(NavFooter))
