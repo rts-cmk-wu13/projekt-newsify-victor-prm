@@ -185,11 +185,10 @@ class ArticleItemComp extends HTMLElement {
                 let isFavorited = await isArticleFavorited(this.props.id);
 
                 if (!isFavorited) {
-                    swipeIcon.className = "fas fa-bookmark";
                     //console.log("Article saved!");
                     favoriteArticle(this.props)
                 } else {
-                    swipeIcon.className = "far fa-bookmark";
+                  
                     //console.log("Article unsaved!");
                     //Update DOM if on saved page
                     if (window.location.pathname === "/saved") {
@@ -209,6 +208,7 @@ class ArticleItemComp extends HTMLElement {
             // Reset position and swipeBox
             article.style.transition = transition;
             article.style.transform = "translateX(0)";
+            swipeIcon.className = "far fa-check-circle";
 
             // If no meaningful movement — simulate normal click if user tapped on a link
             if (!moved) {
