@@ -36,8 +36,29 @@ class NewsSectionComp extends HTMLElement {
         accordion.append(summary, contentDiv)
         this.append(accordion)
 
+        this.monitorItems(contentDiv, this);
+
     }
-    
+
+    monitorItems(targetDiv, parentDiv) {
+        // Define the mutation observer callback
+        const callback = function (mutationsList, observer) {
+            //for (let mutation of mutationsList) {
+                if (targetDiv.childElementCount < 1) {
+                    parentDiv.remove()
+                }
+            //}
+        };
+
+        // Create an observer instance
+        const observer = new MutationObserver(callback);
+
+        // Specify the mutation types to observe (subtree looks at all descendants)
+        const config = { childList: true };
+
+        // Start observing the target node
+        observer.observe(targetDiv, config);
+    }
 
     setClass() {
         this.className = this.getAttribute('class') || tagName

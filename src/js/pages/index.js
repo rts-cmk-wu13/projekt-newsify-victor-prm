@@ -20,8 +20,6 @@ header.append(setElement(PageHeader))
 
 //Populate Main
 export async function populateHome() {
-    main.innerHTML = ""
-
     let news = categoryList();
     news.forEach(element => {
         let section = setElement(NewsSection)
@@ -36,14 +34,9 @@ export async function populateHome() {
                 let article = setElement(ArticleItem)
                 article.dataObject = item;
                 contentElm.append(article)
-
-                article.addEventListener("update", () => {
-                    main.classList.remove("loaded")
-                    setTimeout(populateHome, 400)
-                })
+                section.firstChild.setAttribute("open", "")
             })
         })
-        main.classList.add("loaded")
     });
 }
 populateHome();
