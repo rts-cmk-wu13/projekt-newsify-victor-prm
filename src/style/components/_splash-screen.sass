@@ -3,12 +3,12 @@
 
 .splash-screen
     @extend %fxcol
-    background: white
     justify-content: center
 
     position: fixed
     inset: 0
     z-index: 10001
+    background: white
 
     img
         width: 80px
@@ -17,6 +17,7 @@
     div
         @extend %fxcol
         align-items: center
+        gap: var.$unit-1x
 
     p
         font: var.$text-display
