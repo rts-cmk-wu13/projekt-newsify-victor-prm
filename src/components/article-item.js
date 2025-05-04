@@ -117,13 +117,26 @@ class ArticleItemComp extends HTMLElement {
 
         });
 
-        article.addEventListener("pointerdown", (e) => {
+        article.addEventListener("pointerdown", async (e) => {
             startX = e.clientX;
             dragging = true;
             hasSwipedLeft = false;
             moved = false;
             article.style.transition = "none";
             article.setPointerCapture(e.pointerId);
+
+
+            let isFavorited = await isArticleFavorited(this.props.id);
+
+            if (!isFavorited) {
+                swipeBox.style.backgroundColor = "#4D861F"
+                swipeIcon.className = "far fa-bookmark";
+            } else {
+                swipeBox.style.backgroundColor = "#FF5D5D"
+                swipeIcon.className = "fas fa-trash-alt";
+            }
+
+
         });
 
         article.addEventListener("pointermove", (e) => {
@@ -142,6 +155,14 @@ class ArticleItemComp extends HTMLElement {
                 currentX = 0;
             }
 
+            if (currentX <= saveThreshold) {
+                swipeIcon.classList.add("activated")
+            }
+            else{
+                swipeIcon.classList.remove("activated")
+            }
+
+
             // Deadzone handling (user IS swiping)
             if (Math.abs(deltaX) > 5) moved = true;
 
@@ -158,16 +179,18 @@ class ArticleItemComp extends HTMLElement {
             if (currentX <= saveThreshold) {
                 const delayTime = 2000;
                 const transitionTime = 300;
-                
-                swipeIcon.className = "fas fa-bookmark";
+
+
                 transition = `transform ${transitionTime}ms ${delayTime}ms ease`;
                 let isFavorited = await isArticleFavorited(this.props.id);
 
                 if (!isFavorited) {
-                    console.log("Article saved!");
+                    swipeIcon.className = "fas fa-bookmark";
+                    //console.log("Article saved!");
                     favoriteArticle(this.props)
                 } else {
-                    console.log("Article unsaved!");
+                    swipeIcon.className = "far fa-bookmark";
+                    //console.log("Article unsaved!");
                     //Update DOM if on saved page
                     if (window.location.pathname === "/saved") {
                         transition += `, opacity ${transitionTime}ms ease`

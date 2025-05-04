@@ -42,6 +42,11 @@
         background-color: var.$color-primary-500
         color: white
 
+        i
+            transition: scale 300ms
+            &.activated
+                scale: 1.75
+
     article
         @extend %fxcol
         gap: var.$unit-025x
@@ -103,4 +108,3 @@
         height: 1px
         width: 100%
         border-bottom: 1px solid var.$gray-050
-    
