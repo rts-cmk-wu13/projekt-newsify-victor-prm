@@ -7,6 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
     base: "./",
     build: {
+        outDir: 'docs',
         rollupOptions: {
             input: {
                 //Names of keys here dont really matter/aren't really used. Only paths are important
