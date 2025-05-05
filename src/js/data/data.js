@@ -1,4 +1,5 @@
 import getK from "../getk";
+import { getLS, setLS } from "../utilities";
 import { saveArticles, getArticlesByCategory } from "./db";
 //const k = import.meta.env.VITE_NYT_API_KEY
 const k = getK();
@@ -6,7 +7,7 @@ const k = getK();
 const CACHE_EXPIRY_MINUTES = 2;
 
 function isCacheExpired(cacheKey) {
-    const lastFetchTime = localStorage.getItem(cacheKey);
+    const lastFetchTime = getLS(cacheKey);
 
     if (!lastFetchTime) {
         return true; // No cache, needs fetching
@@ -19,7 +20,7 @@ function isCacheExpired(cacheKey) {
 }
 
 function updateCacheTimestamp(cacheKey) {
-    localStorage.setItem(cacheKey, Date.now());
+    setLS(cacheKey, Date.now())
 }
 
 function getShortestText(text1, text2) {

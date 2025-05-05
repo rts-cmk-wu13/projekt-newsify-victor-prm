@@ -1,4 +1,4 @@
-import { companyLogo, setElement } from '../js/utilities';
+import { companyLogo, setElement, setLS } from '../js/utilities';
 let tagName = 'login-screen'
 class LoginScreenComp extends HTMLElement {
 
@@ -56,6 +56,7 @@ class LoginScreenComp extends HTMLElement {
         let buttons = this.querySelectorAll("button");
         buttons.forEach(btn => btn.onclick = () => {
             window.location.href = "/"
+            setLS("loggedIn", true)
         })
     }
 

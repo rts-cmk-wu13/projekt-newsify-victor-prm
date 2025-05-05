@@ -1,4 +1,4 @@
-import { setElement, companyLogo, sectionTitle, categoryList } from "../js/utilities";
+import { setElement, companyLogo, sectionTitle, categoryList, setLS } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -98,7 +98,7 @@ class PageHeaderComp extends HTMLElement {
         let settingsDialog = setElement("dialog", {
             class: "settings-dialog"
         })
-        let settingsContainer = setElement("div",{
+        let settingsContainer = setElement("div", {
             class: "settings-container"
         })
 
@@ -139,6 +139,11 @@ class PageHeaderComp extends HTMLElement {
         let logout = setElement("button", {
             class: "large-rounded"
         }).inner("Log Out")
+
+        logout.onclick = () => {
+            setLS("loggedIn", false)
+            window.location.href = "/login"
+        }
 
         logoutContainer.append(logout)
         settingsDialog.append(logoutContainer)

@@ -1,5 +1,5 @@
 import '../../style/main.sass'
-import { categoryList } from '../utilities.js';
+import { categoryList, redirectIfLoggedOut } from '../utilities.js';
 import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
@@ -8,7 +8,7 @@ import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
 import { SplashScreen } from '../../components/splash-screen.js';
 import '@oddbird/css-anchor-positioning';
-
+redirectIfLoggedOut();
 
 //Setup
 let splashScreen = setElement(SplashScreen)
