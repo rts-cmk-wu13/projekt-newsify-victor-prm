@@ -1,5 +1,5 @@
 import '../../style/main.sass'
-import { categoryList } from '../utilities.js';
+import { categoryList, redirectIfLoggedOut } from '../utilities.js';
 import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
@@ -7,6 +7,8 @@ import { ArticleItem } from '../../components/article-item.js';
 import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
 import { SplashScreen } from '../../components/splash-screen.js';
+import '@oddbird/css-anchor-positioning';
+redirectIfLoggedOut();
 
 //Setup
 let splashScreen = setElement(SplashScreen)
@@ -17,7 +19,6 @@ let header = setElement("header")
 let main = setElement("main")
 let footer = setElement("footer")
 contentDiv.append(splashScreen,header, main, footer)
-console.log("Updated 14.15")
 
 //Populate Header
 header.append(setElement(PageHeader))

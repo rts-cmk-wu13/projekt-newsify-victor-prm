@@ -1,4 +1,5 @@
 import getK from "../getk";
+import { getLS, setLS } from "../utilities";
 import { saveArticles, getArticlesByCategory } from "./db";
 //const k = import.meta.env.VITE_NYT_API_KEY
 const k = getK();
@@ -6,7 +7,7 @@ const k = getK();
 const CACHE_EXPIRY_MINUTES = 2;
 
 function isCacheExpired(cacheKey) {
-    const lastFetchTime = localStorage.getItem(cacheKey);
+    const lastFetchTime = getLS(cacheKey);
 
     if (!lastFetchTime) {
         return true; // No cache, needs fetching
@@ -19,7 +20,7 @@ function isCacheExpired(cacheKey) {
 }
 
 function updateCacheTimestamp(cacheKey) {
-    localStorage.setItem(cacheKey, Date.now());
+    setLS(cacheKey, Date.now())
 }
 
 function getShortestText(text1, text2) {
@@ -45,13 +46,13 @@ export async function fetchArticlesByCategory(category) {
         //console.log(data.response.docs.map(doc => doc.multimedia));
 
         const articles = data.response.docs
-            .filter(article => article.multimedia.thumbnail.url !== undefined && article.multimedia.thumbnail.url !== '')
+            .filter(article => article.multimedia.default.url !== undefined && article.multimedia.default.url !== '')
             .map(article => {
                 return {
                     id: article.uri,
                     title: getShortestText(article.headline.main, article.headline.print_headline),
                     abstract: article.abstract,
-                    thumbnail: article.multimedia.thumbnail.url,
+                    thumbnail: article.multimedia.default.url,
                     byline: article.byline.original,
                     category: category,
                     pub_date: article.pub_date,
@@ -118,13 +119,14 @@ export async function fetchArticlesByPopularity(period) {
         const response = await fetch(url);
         //console.log(url)
         const data = await response.json();
+        console.log(data)
         const articles = data.results
             .filter(article => article.media && article.media.length > 0)
             .map(article => ({
                 id: article.uri,  // or article.url or some unique identifier
                 title: article.title,
                 abstract: article.abstract,
-                thumbnail: article.media[0]["media-metadata"][0].url || 0,
+                thumbnail: article.media[0]["media-metadata"][1].url || 0,
                 byline: article.byline.original,
                 category: period,
                 pub_date: article.published_date,
@@ -134,7 +136,7 @@ export async function fetchArticlesByPopularity(period) {
                 return new Date(a.pub_date) - new Date(b.pub_date);
             });
 
-        console.log(articles)
+        //console.log(articles)
 
         await saveArticles(articles); // your IndexedDB save function
         updateCacheTimestamp("articlesPopularTimestamp");

@@ -12,9 +12,8 @@
     touch-action: pan-y
 
     &__img-wrap, &__swipe-box
-        aspect-ratio: 1 / 1
-        flex: 0 0 auto
-        min-height: 6rem
+        width: 7rem
+        height: 7rem
 
         background-color: var.$gray-100
         border-radius: var.$unit-1x
@@ -34,18 +33,20 @@
         align-items: center
         justify-content: center
 
-        right: 0-(var.$unit-2x)
-        margin-right: var.$unit-1x
+        right: 0-(var.$unit-3x)
 
         position: absolute
         transform: translateX(6rem)
         background-color: var.$color-primary-500
         color: white
 
+        opacity: 1
+        transition: opacity 0.3s
+
         i
             transition: scale 300ms
             &.activated
-                scale: 1.75
+                scale: 1.5
 
     article
         @extend %fxcol
@@ -87,16 +88,15 @@
                 font: var.$text-body-4
                 color: var.$gray-300
 
-        p
+        p.summary
             font: var.$text-body-3
+            color: var.$gray-600
             flex: 1
 
         @media only screen and (max-width: 30rem)
             hgroup
                 h3
                     font-size: 0.875rem
-            .summary
-                display: none !important
 
     &:not(:last-of-type)::after
         content: ""

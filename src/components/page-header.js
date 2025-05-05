@@ -1,4 +1,4 @@
-import { setElement, companyLogo, sectionTitle, categoryList } from "../js/utilities";
+import { setElement, companyLogo, sectionTitle, categoryList, setLS } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -26,7 +26,7 @@ class PageHeaderComp extends HTMLElement {
         let profileGroup = setElement("div", {
             class: `${this.className}__profile`
         })
-        let user = "John D."
+        let user = "Victor P."
 
         let textGroup = setElement("div")
         let greeting = setElement("p").inner(this.timeSpecificGreeting())
@@ -47,7 +47,9 @@ class PageHeaderComp extends HTMLElement {
     }
 
     profileSettingsBtn(user) {
-        let settingsBtn = setElement("button")
+        let settingsBtn = setElement("button", {
+            class: "settings-button"
+        })
         let imgSource;
         //imgSource = logoSVG
 
@@ -80,42 +82,71 @@ class PageHeaderComp extends HTMLElement {
                 document.body.style.overflow = "hidden";
                 settingsDialog.showModal()
             }
+            let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
+            settingsDialog.style.height = modHeight + "px"
         }
 
-        let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
-        settingsDialog.style.height = modHeight + "px"
+        document.onkeydown = (e) => {
+            if (e.key === "Escape") {
+                document.body.style.overflow = "visible"
+                settingsDialog.close()
+            }
+        }
     }
 
     settingsDialog() {
         let settingsDialog = setElement("dialog", {
             class: "settings-dialog"
         })
+        let settingsContainer = setElement("div", {
+            class: "settings-container"
+        })
+
         let settingsTitle = setElement("h2").inner("Profile Settings")
         let settingsIcon = setElement("i", {
             class: "fas fa-cog"
         })
         settingsTitle.prepend(settingsIcon)
         let description = setElement("p").inner("Choose which categories you would like displayed on the home page")
-        settingsDialog.append(settingsTitle, description)
+        settingsContainer.append(settingsTitle, description)
 
 
 
-        let news = categoryList()
-        news.forEach(element => {
+        let list = categoryList();
+        list.push({
+            title: "Dark Mode",
+            icon: "far fa-moon",
+        })
+
+        list.forEach(element => {
             let listItem = setElement("div", {
                 class: "settings-item"
             })
             let section = sectionTitle(element.title, element.icon);
             let toggleInput = setElement("input", {
                 type: "checkbox",
-                role: "switch",
-                id: "hellohello",
-
+                role: "switch"
             })
             toggleInput.checked = true
             listItem.append(section, toggleInput)
-            settingsDialog.append(listItem);
+            settingsContainer.append(listItem);
         })
+        settingsDialog.append(settingsContainer)
+
+        let logoutContainer = setElement("div", {
+            class: "settings-buttons"
+        })
+        let logout = setElement("button", {
+            class: "large-rounded"
+        }).inner("Log Out")
+
+        logout.onclick = () => {
+            setLS("loggedIn", false)
+            window.location.href = "/login"
+        }
+
+        logoutContainer.append(logout)
+        settingsDialog.append(logoutContainer)
 
 
         settingsDialog.onclick = (event) => {

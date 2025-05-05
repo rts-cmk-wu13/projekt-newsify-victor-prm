@@ -1,11 +1,13 @@
 import '../../style/main.sass'
-import { categoryList, popularList } from '../utilities.js';
+import { categoryList, popularList, redirectIfLoggedOut } from '../utilities.js';
 import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
 import { NavFooter } from '../../components/nav-footer.js';
 import { getAllFavoriteCategories, getFavoritesByCategory } from '../data/db.js';
+import '@oddbird/css-anchor-positioning';
+redirectIfLoggedOut();
 
 //Setup
 let contentDiv = document.querySelector('#app');

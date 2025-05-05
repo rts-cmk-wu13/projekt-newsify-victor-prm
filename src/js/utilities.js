@@ -36,9 +36,9 @@ export function imgWrapper(className) {
     return imgWrap;
 }
 
-export function sectionTitle(sectionTitle,iconSource) {
-    let titleGroup = setElement("hgroup",{
-         class: `section-title`
+export function sectionTitle(sectionTitle, iconSource) {
+    let titleGroup = setElement("hgroup", {
+        class: `section-title`
     })
     let categoryIcon = setElement("i", {
         class: iconSource
@@ -96,6 +96,22 @@ export function popularList() {
     return popularList;
 }
 
-export function scale (number, inMin, inMax, outMin, outMax) {
+export function scale(number, inMin, inMax, outMin, outMax) {
     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
+
+export function getLS(key) {
+    return JSON.parse(localStorage.getItem(key))
+}
+
+export function setLS(key, value) {
+    localStorage.setItem(key, JSON.stringify(value))
+}
+
+export function redirectIfLoggedOut() {
+    if (!getLS("loggedIn")) {
+        window.location.href = "/login"
+    }
+    return;
+}
+

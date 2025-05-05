@@ -102,8 +102,8 @@ class ArticleItemComp extends HTMLElement {
         let startX = 0;
         let currentX = 0;
         let dragging = false;
-        let maxDrag = 104; // 6.5rem in px (negative direction)
-        let saveThreshold = -90;
+        let maxDrag = 120; // 6.5rem in px (negative direction)
+        let saveThreshold = -100;
         let hasSwipedLeft = false;
         let moved = false;
 
@@ -157,9 +157,11 @@ class ArticleItemComp extends HTMLElement {
 
             if (currentX <= saveThreshold) {
                 swipeIcon.classList.add("activated")
+                swipeBox.style.opacity = 0.85
             }
-            else{
+            else {
                 swipeIcon.classList.remove("activated")
+                swipeBox.style.opacity = 1
             }
 
 
@@ -180,7 +182,6 @@ class ArticleItemComp extends HTMLElement {
                 const delayTime = 2000;
                 const transitionTime = 300;
 
-
                 transition = `transform ${transitionTime}ms ${delayTime}ms ease`;
                 let isFavorited = await isArticleFavorited(this.props.id);
 
@@ -188,7 +189,7 @@ class ArticleItemComp extends HTMLElement {
                     //console.log("Article saved!");
                     favoriteArticle(this.props)
                 } else {
-                  
+
                     //console.log("Article unsaved!");
                     //Update DOM if on saved page
                     if (window.location.pathname === "/saved") {
