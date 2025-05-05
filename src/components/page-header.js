@@ -1,4 +1,4 @@
-import { setElement, companyLogo, sectionTitle, categoryList, setLS } from "../js/utilities";
+import { setElement, companyLogo, sectionTitle, categoryList, setLS, lockScroll, unlockScroll } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -79,7 +79,7 @@ class PageHeaderComp extends HTMLElement {
                 settingsDialog.close()
             }
             else {
-                document.body.style.overflow = "hidden";
+                lockScroll();
                 settingsDialog.showModal()
             }
             let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
@@ -88,7 +88,7 @@ class PageHeaderComp extends HTMLElement {
 
         document.onkeydown = (e) => {
             if (e.key === "Escape") {
-                document.body.style.overflow = "visible"
+                unlockScroll();
                 settingsDialog.close()
             }
         }
@@ -155,7 +155,7 @@ class PageHeaderComp extends HTMLElement {
                 rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
             if (!isInDialog) {
                 settingsDialog.close();
-                document.body.style.overflow = "visible"
+                unlockScroll();
             }
         }
 
