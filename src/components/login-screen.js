@@ -14,7 +14,11 @@ class LoginScreenComp extends HTMLElement {
     render() {
         let logo = companyLogo()
         let title = setElement("h1").inner("Newsify")
-        this.append(logo,title)
+        let welcomeMsg = setElement("p").inner("Welcome! Let's dive into your account!")
+        let fbButton = setElement("button").inner("Continue with Facebook")
+        let gButton = setElement("button").inner("Continue with Google")
+
+        this.append(logo,title, welcomeMsg, fbButton, gButton)
     }
 
     setClass() {
