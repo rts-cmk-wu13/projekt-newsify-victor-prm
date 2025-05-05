@@ -8,9 +8,7 @@ import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
 import { SplashScreen } from '../../components/splash-screen.js';
 
-
 //Setup
-
 let splashScreen = setElement(SplashScreen)
 
 
@@ -19,6 +17,7 @@ let header = setElement("header")
 let main = setElement("main")
 let footer = setElement("footer")
 contentDiv.append(splashScreen,header, main, footer)
+console.log("Updated 14.15")
 
 //Populate Header
 header.append(setElement(PageHeader))
