@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 project-files
-api-key.js
+getk.js
 saveForLater.js
 
 
