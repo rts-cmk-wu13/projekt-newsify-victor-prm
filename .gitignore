@@ -12,8 +12,9 @@ dist
 dist-ssr
 *.local
 project-files
-api-key.js
+getk.js
 saveForLater.js
+
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +26,4 @@ saveForLater.js
 *.njsproj
 *.sln
 *.sw?
+.env

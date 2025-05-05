@@ -1,5 +1,7 @@
+import getK from "../getk";
 import { saveArticles, getArticlesByCategory } from "./db";
-const k = import.meta.env.VITE_NYT_API_KEY
+//const k = import.meta.env.VITE_NYT_API_KEY
+const k = getK();
 
 const CACHE_EXPIRY_MINUTES = 2;
 
