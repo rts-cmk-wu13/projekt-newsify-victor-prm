@@ -25,10 +25,10 @@
         p
             font: var.$text-body-4
 
-        div
+        >div
             text-align: right
 
-    button
+    .settings-button
         @extend %fxrow
         align-items: center
         justify-content: center
@@ -51,6 +51,13 @@
         img
             width: 100%
             height: 100%
+
+    .settings-buttons
+        @extend %fxrow
+        padding: var.$unit-4x
+        align-self: end
+        align-items: center
+        justify-content: center
 
     .settings-dialog
         position: fixed
@@ -81,24 +88,26 @@
             background-color: rgba(white,0.25)
             backdrop-filter: blur(1px)
 
-        &>h2
-            font: var.$text-heading-2
-            color: var.$color-primary-700
+        .settings-container
+            >h2
+                font: var.$text-heading-2
+                color: var.$color-primary-700
+                margin-bottom: var.$unit-05x
 
-            &>i
-                margin-right: var.$unit-1x
+                >i
+                    margin-right: var.$unit-1x
 
-        &>p
-            margin-bottom: var.$unit-2x
-            font: var.$text-body-3
-            color: var.$gray-500
+            >p
+                margin-bottom: var.$unit-2x
+                font: var.$text-body-3
+                color: var.$gray-500
 
         .settings-item
             @extend %fxrow
             justify-content: space-between
             gap: var.$unit-05x
             align-items: center
-            border-top: 1px solid var.$gray-100
+            border-bottom: 1px solid var.$gray-100
             padding: var.$unit-1x 0
 
             input
@@ -141,6 +150,13 @@
 
             input:checked:before
                 left: 1em
+
+        .settings-item:first-of-type
+            border-top: 1px solid var.$gray-100
+
+        .settings-item:last-of-type
+            border-top: 1px solid var.$gray-100
+            margin-top: var.$unit-4x
 
 dialog::backdrop
     background-color: salmon
