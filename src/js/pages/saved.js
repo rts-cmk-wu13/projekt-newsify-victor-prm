@@ -6,6 +6,8 @@ import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
 import { NavFooter } from '../../components/nav-footer.js';
 import { getAllFavoriteCategories, getFavoritesByCategory } from '../data/db.js';
+import '@oddbird/css-anchor-positioning';
+
 
 //Setup
 let contentDiv = document.querySelector('#app');

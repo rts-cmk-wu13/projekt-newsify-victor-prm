@@ -6,6 +6,8 @@ import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
 import { fetchArticlesByPopularity } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
+import '@oddbird/css-anchor-positioning';
+
 
 
 //Setup

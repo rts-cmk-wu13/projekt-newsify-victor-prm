@@ -80,10 +80,16 @@ class PageHeaderComp extends HTMLElement {
                 document.body.style.overflow = "hidden";
                 settingsDialog.showModal()
             }
+            let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
+            settingsDialog.style.height = modHeight + "px"
         }
 
-        let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
-        settingsDialog.style.height = modHeight + "px"
+        document.onkeydown = (e) => {
+            if (e.key === "Escape") {
+                document.body.style.overflow = "visible"
+                settingsDialog.close()
+            }
+        }
     }
 
     settingsDialog() {
