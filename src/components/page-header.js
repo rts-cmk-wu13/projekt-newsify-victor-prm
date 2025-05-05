@@ -26,7 +26,7 @@ class PageHeaderComp extends HTMLElement {
         let profileGroup = setElement("div", {
             class: `${this.className}__profile`
         })
-        let user = "John D."
+        let user = "Victor P."
 
         let textGroup = setElement("div")
         let greeting = setElement("p").inner(this.timeSpecificGreeting())

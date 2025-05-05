@@ -3,16 +3,30 @@
 
 .page-header
     @extend %fxrow
+
+    position: fixed
+    top: 0
+    left: 50%
+    transform: translate(-50%, 0)
+    z-index: 100
+
+    width: 100%
+    max-width: var.$max-width-page
+
     gap: var.$unit-2x
-    height: var.$unit-4x
-    margin: var.$unit-3x var.$unit-2x var.$unit-2x
+
     align-items: center
     justify-content: space-between
+
+    padding: var.$unit-2x
+
+    background: white
+    
 
     .logo-wrap
         @extend %fxrow
         gap: var.$unit-1x
-        height: 100%
+        height: 2rem
 
         h1
             font: var.$text-heading-2
@@ -41,7 +55,7 @@
         border: none
 
         overflow: hidden
-        anchor-name: --settingsDialog
+        //anchor-name: --settingsDialog
 
         p
             font-weight: 700
@@ -60,10 +74,9 @@
         justify-content: center
 
     .settings-dialog
-        position: fixed
-        position-anchor: --settingsDialog
+        position: relative
 
-        top: anchor(--settingsDialog bottom)
+        top: 3rem
         left: 50%
         transform: translate(-50%, 0)
         z-index: 200
