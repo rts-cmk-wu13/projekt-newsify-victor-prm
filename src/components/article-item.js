@@ -61,7 +61,7 @@ class ArticleItemComp extends HTMLElement {
         let swipeBox = setElement("div", {
             class: `${this.className}__swipe-box`,
         })
-        let swipeIcon = setElement("i",{
+        let swipeIcon = setElement("i", {
             class: "far fa-bookmark"
         })
         swipeBox.append(swipeIcon)
@@ -117,13 +117,26 @@ class ArticleItemComp extends HTMLElement {
 
         });
 
-        article.addEventListener("pointerdown", (e) => {
+        article.addEventListener("pointerdown", async (e) => {
             startX = e.clientX;
             dragging = true;
             hasSwipedLeft = false;
             moved = false;
             article.style.transition = "none";
             article.setPointerCapture(e.pointerId);
+
+
+            let isFavorited = await isArticleFavorited(this.props.id);
+
+            if (!isFavorited) {
+                swipeBox.style.backgroundColor = "#4D861F"
+                swipeIcon.className = "far fa-bookmark";
+            } else {
+                swipeBox.style.backgroundColor = "#FF5D5D"
+                swipeIcon.className = "fas fa-trash-alt";
+            }
+
+
         });
 
         article.addEventListener("pointermove", (e) => {
@@ -142,6 +155,14 @@ class ArticleItemComp extends HTMLElement {
                 currentX = 0;
             }
 
+            if (currentX <= saveThreshold) {
+                swipeIcon.classList.add("activated")
+            }
+            else{
+                swipeIcon.classList.remove("activated")
+            }
+
+
             // Deadzone handling (user IS swiping)
             if (Math.abs(deltaX) > 5) moved = true;
 
@@ -151,33 +172,44 @@ class ArticleItemComp extends HTMLElement {
         article.addEventListener("pointerup", async (e) => {
             dragging = false;
             article.releasePointerCapture(e.pointerId);
-            
+
 
             let transition = "";
 
             if (currentX <= saveThreshold) {
-                console.log("Article saved!");
                 const delayTime = 2000;
                 const transitionTime = 300;
-                swipeIcon.className = "fas fa-bookmark";
+
+
                 transition = `transform ${transitionTime}ms ${delayTime}ms ease`;
                 let isFavorited = await isArticleFavorited(this.props.id);
+
                 if (!isFavorited) {
+                    //console.log("Article saved!");
                     favoriteArticle(this.props)
-                }else{
-                    unfavoriteArticle(this.props.id)
+                } else {
+                  
+                    //console.log("Article unsaved!");
+                    //Update DOM if on saved page
+                    if (window.location.pathname === "/saved") {
+                        transition += `, opacity ${transitionTime}ms ease`
+                        article.style.opacity = 0.2;
+                        setTimeout(() => article.remove(), transitionTime)
+                    }
+                    unfavoriteArticle(this.props.id);
                 }
 
-                setTimeout(() => {this.dispatchEvent(new Event("update"))},delayTime+transitionTime+100)
+                //setTimeout(() => {this.dispatchEvent(new Event("update"))},delayTime+transitionTime+100)
 
-            }else{
-                transition = "transform 0.3s ease";
+            } else {
+                transition = "transform 300ms ease";
             }
 
             // Reset position and swipeBox
             article.style.transition = transition;
             article.style.transform = "translateX(0)";
-            
+            swipeIcon.className = "far fa-check-circle";
+
             // If no meaningful movement — simulate normal click if user tapped on a link
             if (!moved) {
                 const targetElement = document.elementFromPoint(e.clientX, e.clientY);

@@ -7,9 +7,8 @@
 
     position: relative
     gap: var.$unit-1x
-    //border-bottom: 1px solid var.$gray-050
 
-    transition: transform 0.3s ease
+    transition: transform 0.3s ease, opacity 1s ease
     touch-action: pan-y
 
     &__img-wrap, &__swipe-box
@@ -42,6 +41,11 @@
         transform: translateX(6rem)
         background-color: var.$color-primary-500
         color: white
+
+        i
+            transition: scale 300ms
+            &.activated
+                scale: 1.75
 
     article
         @extend %fxcol
@@ -104,4 +108,3 @@
         height: 1px
         width: 100%
         border-bottom: 1px solid var.$gray-050
-    

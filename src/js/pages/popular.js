@@ -20,8 +20,6 @@ header.append(setElement(PageHeader))
 
 //Populate Main
 export async function populatePopular() {
-    main.innerHTML = ""
-    
     let news = popularList();
     news.forEach(element => {
         let section = setElement(NewsSection)
@@ -37,14 +35,8 @@ export async function populatePopular() {
                 article.dataObject = item;
                 contentElm.append(article)
                 section.firstChild.setAttribute("open", "")
-
-                article.addEventListener("update", () => {
-                    main.classList.remove("loaded")
-                    setTimeout(populatePopular, 300)
-                })
             })
         })
-        main.classList.add("loaded")
     });
 }
 populatePopular();

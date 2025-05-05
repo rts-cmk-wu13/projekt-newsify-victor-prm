@@ -6,22 +6,25 @@ import { NewsSection } from '../../components/news-section.js';
 import { ArticleItem } from '../../components/article-item.js';
 import { fetchArticlesByCategory } from '../data/data.js';
 import { NavFooter } from '../../components/nav-footer.js';
+import { SplashScreen } from '../../components/splash-screen.js';
 
 
 //Setup
+
+let splashScreen = setElement(SplashScreen)
+
+
 let contentDiv = document.querySelector('#app');
 let header = setElement("header")
 let main = setElement("main")
 let footer = setElement("footer")
-contentDiv.append(header, main, footer)
+contentDiv.append(splashScreen,header, main, footer)
 
 //Populate Header
 header.append(setElement(PageHeader))
 
 //Populate Main
 export async function populateHome() {
-    main.innerHTML = ""
-
     let news = categoryList();
     news.forEach(element => {
         let section = setElement(NewsSection)
@@ -36,14 +39,9 @@ export async function populateHome() {
                 let article = setElement(ArticleItem)
                 article.dataObject = item;
                 contentElm.append(article)
-
-                article.addEventListener("update", () => {
-                    main.classList.remove("loaded")
-                    setTimeout(populateHome, 400)
-                })
+                section.firstChild.setAttribute("open", "")
             })
         })
-        main.classList.add("loaded")
     });
 }
 populateHome();

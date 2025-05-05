@@ -19,8 +19,6 @@ header.append(setElement(PageHeader))
 
 //Populate Main
 export async function populateSaved() {
-    main.innerHTML = ""
-
     let favorites = categoryList().concat(popularList())
     let favoritesToShow = await getAllFavoriteCategories()
     favorites = favorites.filter(item => favoritesToShow.includes(item.title))
@@ -29,35 +27,40 @@ export async function populateSaved() {
         let msg = setElement("p").inner("You haven't saved any articles yet!")
         main.append(msg)
     }
+    const sectionMap = new Map();
 
     favorites.forEach(element => {
-        let category = element.title
-        if (element.title === "Today" || element.title === "Week" || element.title === "Month") {
-            element.title = "Popular"
-            element.icon = "far fa-star"
+        const originalCategory = element.title;
+        let displayCategory = originalCategory;
+
+        // Rename display category if needed
+        if (originalCategory === "Today" || originalCategory === "This Week" || originalCategory === "This Month") {
+            displayCategory = "Popular";
+            element.title = "Popular";
+            element.icon = "far fa-star";
         }
 
-        let section = setElement(NewsSection)
+        // Check if a section for this displayCategory already exists — create if not
+        if (!sectionMap.has(displayCategory)) {
+            const section = setElement(NewsSection);
+            section.dataObject = element;
+            main.append(section);
+            sectionMap.set(displayCategory, section);
+        }
 
-        section.dataObject = element;
-        main.append(section);
+        // Get the section element
+        const section = sectionMap.get(displayCategory);
+        const contentElm = section.querySelector(".content-div");
 
-        let contentElm = section.querySelector(".content-div")
-        getFavoritesByCategory(category).then(items => {
-            console.log(items)
+        // Fetch favorites using the original category value, not the display one
+        getFavoritesByCategory(originalCategory).then(items => {
             items.forEach(item => {
-                let article = setElement(ArticleItem)
+                const article = setElement(ArticleItem);
                 article.dataObject = item;
-                contentElm.append(article)
-                section.firstChild.setAttribute("open", "")
-
-                article.addEventListener("update", () => {
-                    main.classList.remove("loaded")
-                    setTimeout(populateSaved, 500)
-                })
-            })
-        })
-        main.classList.add("loaded")
+                contentElm.append(article);
+                section.firstChild.setAttribute("open", "");
+            });
+        });
     });
 }
 populateSaved();

@@ -65,7 +65,8 @@ export async function fetchArticlesByCategory(category) {
     } else {
         console.log("Loading articles from cache...");
         const cachedArticles = await getArticlesByCategory(category); // your IndexedDB read function
-        console.log(cachedArticles)
+        //console.log(cachedArticles)
+        
         //Sort articles, newest first
         cachedArticles.sort(function (b, a) {
             return new Date(a.pub_date) - new Date(b.pub_date);

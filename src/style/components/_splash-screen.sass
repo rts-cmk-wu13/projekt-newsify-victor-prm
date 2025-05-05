@@ -1,0 +1,24 @@
+@use '../base'
+@use '../variables' as var
+
+.splash-screen
+    @extend %fxcol
+    justify-content: center
+
+    position: fixed
+    inset: 0
+    z-index: 10001
+    background: white
+
+    img
+        width: 80px
+        transition: scale 300ms
+
+    div
+        @extend %fxcol
+        align-items: center
+        gap: var.$unit-1x
+
+    p
+        font: var.$text-display
+        opacity: 0
