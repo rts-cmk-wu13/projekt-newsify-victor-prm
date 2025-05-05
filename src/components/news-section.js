@@ -59,7 +59,7 @@ class NewsSectionComp extends HTMLElement {
         // Start observing the target node
         observer.observe(targetDiv, config);
     }
-
+    
     setClass() {
         this.className = this.getAttribute('class') || tagName
         this.classModifier = this.getAttribute('class-mod')

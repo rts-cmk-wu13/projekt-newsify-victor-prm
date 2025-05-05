@@ -12,13 +12,51 @@ class LoginScreenComp extends HTMLElement {
     }
 
     render() {
+        let logoContainer = setElement("div",{
+            class: "logo-container"
+        })
         let logo = companyLogo()
         let title = setElement("h1").inner("Newsify")
-        let welcomeMsg = setElement("p").inner("Welcome! Let's dive into your account!")
-        let fbButton = setElement("button").inner("Continue with Facebook")
-        let gButton = setElement("button").inner("Continue with Google")
+        logoContainer.append(logo, title)
 
-        this.append(logo,title, welcomeMsg, fbButton, gButton)
+        let welcomeMsg = setElement("p").inner("Welcome! Let's dive into your account!")
+
+        let soMeButtonsContainer = setElement("div",{
+             class: "some-buttons"
+        })
+        let fbButton = setElement("button", {
+            class: "large-rounded"
+        }).inner("Continue with Facebook")
+        let gButton = setElement("button", {
+            class: "large-rounded"
+        }).inner("Continue with Google")
+        soMeButtonsContainer.append(fbButton, gButton)
+
+        let passButton = setElement("button", {
+            class: "large-rounded green-button"
+        }).inner("Sign in with password")
+
+        this.append(logoContainer, welcomeMsg, soMeButtonsContainer, this.horizontalDivider(), passButton)
+        this.handleRedirect();
+    }
+
+    horizontalDivider() {
+        let dividerContainer = setElement("div", {
+            class: "login-divider"
+        })
+        let divider = setElement("hr")
+        let or = setElement("p").inner("or")
+
+
+        dividerContainer.append(divider, or)
+        return dividerContainer;
+    }
+
+    handleRedirect(){
+        let buttons = this.querySelectorAll("button");
+        buttons.forEach(btn => btn.onclick = () => {
+            window.location.href = "/"
+        })
     }
 
     setClass() {
