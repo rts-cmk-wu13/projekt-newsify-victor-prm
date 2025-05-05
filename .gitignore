@@ -15,6 +15,7 @@ project-files
 api-key.js
 saveForLater.js
 
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -25,3 +26,4 @@ saveForLater.js
 *.njsproj
 *.sln
 *.sw?
+.env
