@@ -77,9 +77,11 @@ class PageHeaderComp extends HTMLElement {
                 settingsDialog.close()
             }
             else {
+                document.body.style.overflow = "hidden";
                 settingsDialog.showModal()
             }
         }
+
         let modHeight = window.innerHeight - settingsBtn.getBoundingClientRect().bottom - 8
         settingsDialog.style.height = modHeight + "px"
     }
@@ -89,14 +91,14 @@ class PageHeaderComp extends HTMLElement {
             class: "settings-dialog"
         })
         let settingsTitle = setElement("h2").inner("Profile Settings")
-        let settingsIcon = setElement("i",{
+        let settingsIcon = setElement("i", {
             class: "fas fa-cog"
         })
         settingsTitle.prepend(settingsIcon)
         let description = setElement("p").inner("Choose which categories you would like displayed on the home page")
         settingsDialog.append(settingsTitle, description)
 
-       
+
 
         let news = categoryList()
         news.forEach(element => {
@@ -122,6 +124,7 @@ class PageHeaderComp extends HTMLElement {
                 rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
             if (!isInDialog) {
                 settingsDialog.close();
+                document.body.style.overflow = "visible"
             }
         }
 
