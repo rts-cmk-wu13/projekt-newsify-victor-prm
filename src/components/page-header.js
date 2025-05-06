@@ -1,4 +1,4 @@
-import { setElement, companyLogo, sectionTitle, categoryList, setLS, lockScroll, unlockScroll, getLS } from "../js/utilities";
+import { setElement, companyLogo, sectionTitle, categoryList, setLS, lockScroll, unlockScroll, getLS, getSettings } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -118,35 +118,45 @@ class PageHeaderComp extends HTMLElement {
             icon: "far fa-moon",
         })
 
-        let settingsArray = getLS("settingsArray") || new Array(list.length)
+        let settingsArray = getSettings(list)
+        console.log(settingsArray)
+        const toggles = [];
+
         list.forEach((element, index) => {
-            let listItem = setElement("div", {
-                class: "settings-item"
-            })
+            let listItem = setElement("div", { class: "settings-item" });
             let section = sectionTitle(element.title, element.icon);
             let toggleInput = setElement("input", {
                 type: "checkbox",
                 role: "switch"
-            })
+            });
 
-            if (settingsArray[index] === false) {
-                toggleInput.checked = false
-            }else{
-                toggleInput.checked = true
-            }
+            // Set initial checked state
+            toggleInput.checked = settingsArray[index] !== false;
 
+            toggles.push(toggleInput); // track toggle inputs for later
 
             toggleInput.onclick = () => {
-                let updatedSettingsArray = getLS("settingsArray")
+                let updatedSettingsArray = getSettings(list);
                 updatedSettingsArray[index] = toggleInput.checked;
                 setLS("settingsArray", updatedSettingsArray);
-                console.log(updatedSettingsArray)
-            }
 
+                //Only send event on category items, and exclude dark mode
+                if (index < list.length - 1) {
+                    window.dispatchEvent(new Event("storageChanged"));
+                }
 
-            listItem.append(section, toggleInput)
+                // Refresh toggle states dynamically on click
+                this.updateToggleStates(updatedSettingsArray, toggles);
+            };
+
+            listItem.append(section, toggleInput);
             settingsContainer.append(listItem);
-        })
+        });
+
+        // After list is built, initialize toggle states
+        this.updateToggleStates(settingsArray, toggles);
+
+
         settingsDialog.append(settingsContainer)
 
         //Buttons Container
@@ -187,10 +197,27 @@ class PageHeaderComp extends HTMLElement {
         }
 
 
+
         return settingsDialog
     }
 
+    updateToggleStates(settingsArray, toggles, limit = 3) {
+        const disabledCount = settingsArray.filter(item => item === false).length;
+
+        settingsArray.forEach((item, index) => {
+            const toggleInput = toggles[index];
+
+            if (disabledCount >= limit && settingsArray[index] === true) {
+                toggleInput.disabled = true;
+            } else {
+                toggleInput.disabled = false;
+            }
+        });
+    }
+
+
     timeSpecificGreeting() {
+
         var d = new Date();
         var time = d.getHours();
         let greeting

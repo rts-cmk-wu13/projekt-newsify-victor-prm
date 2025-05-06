@@ -1,5 +1,5 @@
 import '../../style/main.sass'
-import { autoLogout, categoryList, hasSeenSplashScreen, redirectIfLoggedOut, setLS } from '../utilities.js';
+import { autoLogout, categoryList, getLS, getSettings, hasSeenSplashScreen, redirectIfLoggedOut, setLS, updateCategories } from '../utilities.js';
 import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
@@ -30,7 +30,13 @@ header.append(setElement(PageHeader))
 
 //Populate Main
 export async function populateHome() {
+    main.innerHTML = ""
     let news = categoryList();
+    let categoriesToShow = getSettings(news)
+    
+    //Filter out categories set to false in the menu
+    news = news.filter((item, index) => categoriesToShow[index] !== false)
+
     news.forEach(element => {
         let section = setElement(NewsSection)
 
@@ -50,6 +56,9 @@ export async function populateHome() {
     });
 }
 populateHome();
+
+//Re-render main when user changes category preferences 
+updateCategories(populateHome)
 
 //Populate Footer
 footer.append(setElement(NavFooter))

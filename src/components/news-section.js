@@ -37,7 +37,6 @@ class NewsSectionComp extends HTMLElement {
         this.append(accordion)
 
         this.monitorItems(contentDiv, this);
-
     }
 
     monitorItems(targetDiv, parentDiv) {
