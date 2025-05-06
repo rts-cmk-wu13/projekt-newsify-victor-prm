@@ -19,7 +19,6 @@
 
     .text-container
         @extend %fxcol
-        height: 45%
         gap: var.$unit-1x
 
         position: absolute
@@ -38,6 +37,24 @@
 
         p
             font: var.$text-body-2
+
+        .dots-container
+            @extend %fxrow
+            justify-content: center
+            gap: var.$unit-2x
+            margin: var.$unit-2x 0
+
+            .carousel-dot
+                width: var.$unit-4x
+                height: var.$unit-2x
+                border-radius: var.$unit-2x
+                border: none
+                background: var.$color-primary-500
+
+                transition: width 0.3s ease
+
+                &.selected-dot
+                    width: var.$unit-8x
 
         .button-container
             @extend %fxrow
