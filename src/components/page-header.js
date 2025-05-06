@@ -1,4 +1,5 @@
 import { setElement, companyLogo, sectionTitle, categoryList, setLS, lockScroll, unlockScroll, getLS, getSettings } from "../js/utilities";
+import { SearchBar } from "./search-bar";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -39,7 +40,13 @@ class PageHeaderComp extends HTMLElement {
         //console.log(settingsDialog)
 
         profileGroup.append(textGroup, settingsBtn, settingsDialog)
-        this.append(logoWrap, profileGroup)
+
+        let upperHeader = setElement("div",{
+            class: "upper-header"
+        })
+        upperHeader.append(logoWrap,profileGroup)
+
+        this.append(upperHeader, setElement(SearchBar))
 
 
         this.toggleSettingsDialog(settingsBtn, settingsDialog)

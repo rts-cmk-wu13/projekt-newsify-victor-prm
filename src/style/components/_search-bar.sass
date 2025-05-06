@@ -1,0 +1,19 @@
+@use '../base'
+@use '../variables' as var
+
+.search-bar
+    position: relative
+    .article-search
+        width: 100%
+        height: var.$unit-5x
+        padding: var.$unit-1x var.$unit-4x
+        border-radius: var.$unit-1x
+        border: 1px solid var.$gray-200
+        background: white
+
+        font: var.$text-title-3
+
+    .search-icon
+        position: absolute
+        left: var.$unit-1x
+        transform: translateY(33%)
