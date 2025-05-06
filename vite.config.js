@@ -18,7 +18,7 @@ export default defineConfig({
                 saved: resolve(__dirname, 'saved.html'),
                 popular: resolve(__dirname, 'popular.html'),
                 login: resolve(__dirname, 'login.html'),
-                onboarding: resolve(__dirname, 'onboarding/index.html')
+                onboarding: resolve(__dirname, 'onboarding.html')
             },
         },
     },

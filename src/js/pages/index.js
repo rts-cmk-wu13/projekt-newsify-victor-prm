@@ -1,5 +1,5 @@
 import '../../style/main.sass'
-import { categoryList, redirectIfLoggedOut } from '../utilities.js';
+import { autoLogout, categoryList, hasSeenSplashScreen, redirectIfLoggedOut, setLS } from '../utilities.js';
 import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
@@ -18,7 +18,12 @@ let contentDiv = document.querySelector('#app');
 let header = setElement("header")
 let main = setElement("main")
 let footer = setElement("footer")
-contentDiv.append(splashScreen,header, main, footer)
+
+if(!hasSeenSplashScreen()){
+    contentDiv.append(splashScreen);
+    setLS("splashScreenShown", true)
+}
+contentDiv.append(header, main, footer)
 
 //Populate Header
 header.append(setElement(PageHeader))

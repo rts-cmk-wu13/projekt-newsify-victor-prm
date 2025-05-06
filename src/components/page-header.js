@@ -111,7 +111,7 @@ class PageHeaderComp extends HTMLElement {
         settingsContainer.append(settingsTitle, description)
 
 
-
+        //Toggle List
         let list = categoryList();
         list.push({
             title: "Dark Mode",
@@ -133,20 +133,31 @@ class PageHeaderComp extends HTMLElement {
         })
         settingsDialog.append(settingsContainer)
 
-        let logoutContainer = setElement("div", {
+        //Buttons Container
+        let settingsButtons = setElement("div", {
             class: "settings-buttons"
         })
-        let logout = setElement("button", {
-            class: "large-rounded"
+        //Redo Button
+        let redoTutorialBtn = setElement("button", {
+            class: "large-rounded settings"
+        }).inner("Redo Onboarding")
+        redoTutorialBtn.onclick = () => {
+            setLS("onboardingCompleted", false)
+            window.location.href = "/onboarding"
+        }
+        //Logout Button
+        let logoutBtn = setElement("button", {
+            class: "large-rounded settings"
         }).inner("Log Out")
 
-        logout.onclick = () => {
+        logoutBtn.onclick = () => {
             setLS("loggedIn", false)
             window.location.href = "/login"
         }
 
-        logoutContainer.append(logout)
-        settingsDialog.append(logoutContainer)
+        //Append
+        settingsButtons.append(redoTutorialBtn, logoutBtn)
+        settingsDialog.append(settingsButtons)
 
 
         settingsDialog.onclick = (event) => {

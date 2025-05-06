@@ -1,5 +1,5 @@
 import '../../style/main.sass'
-import { categoryList, popularList, redirectIfLoggedOut } from '../utilities.js';
+import { popularList, redirectIfLoggedOut } from '../utilities.js';
 import { setElement } from '../utilities.js';
 import { PageHeader } from '../../components/page-header.js'
 import { NewsSection } from '../../components/news-section.js';
