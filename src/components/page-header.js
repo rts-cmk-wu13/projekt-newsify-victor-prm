@@ -118,6 +118,7 @@ class PageHeaderComp extends HTMLElement {
             icon: "far fa-moon",
         })
 
+        let settingsArray = getLS("settingsArray") || new Array(list.length)
         list.forEach((element, index) => {
             let listItem = setElement("div", {
                 class: "settings-item"
@@ -127,13 +128,19 @@ class PageHeaderComp extends HTMLElement {
                 type: "checkbox",
                 role: "switch"
             })
-            toggleInput.checked = true
+
+            if (settingsArray[index] === false) {
+                toggleInput.checked = false
+            }else{
+                toggleInput.checked = true
+            }
+
 
             toggleInput.onclick = () => {
-                let settingsArray = getLS("settingsArray") || [true, true, true, true, true]
-                settingsArray[index] = toggleInput.checked;
-                setLS("settingsArray",settingsArray);
-                console.log(settingsArray)
+                let updatedSettingsArray = getLS("settingsArray")
+                updatedSettingsArray[index] = toggleInput.checked;
+                setLS("settingsArray", updatedSettingsArray);
+                console.log(updatedSettingsArray)
             }
 
 
