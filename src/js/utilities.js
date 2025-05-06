@@ -108,11 +108,43 @@ export function setLS(key, value) {
     localStorage.setItem(key, JSON.stringify(value))
 }
 
+export function hasSeenSplashScreen(){
+    if(getLS("splashScreenShown")){
+        return true
+    }else{
+        return false
+    }
+}
+
 export function redirectIfLoggedOut() {
-    if (!getLS("loggedIn")) {
+    if (autoLogout(2)) {
+        setLS("loggedIn", false)
         window.location.href = "/login"
     }
+    if (!getLS("loggedIn") && !getLS("onboardingCompleted")) {
+        window.location.href = "/login"
+    }
+    else if (!getLS("onboardingCompleted")) {
+        window.location.href = "/onboarding"
+    }
     return;
+}
+
+export function redirectIfLoggedIn() {
+    if (getLS("loggedIn")) {
+        window.location.href = "/"
+    }
+    return;
+}
+
+export function autoLogout(hours) {
+    let timeThreshold = 1000 * 60 * 60 * hours;
+    let timeSinceLastLogin = Date.now() - getLS("lastLogin")
+    if (timeSinceLastLogin > timeThreshold) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 let scrollY = 0;

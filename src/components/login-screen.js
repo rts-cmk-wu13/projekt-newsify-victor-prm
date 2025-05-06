@@ -1,4 +1,4 @@
-import { companyLogo, setElement, setLS } from '../js/utilities';
+import { companyLogo, getLS, setElement, setLS } from '../js/utilities';
 let tagName = 'login-screen'
 class LoginScreenComp extends HTMLElement {
 
@@ -12,7 +12,7 @@ class LoginScreenComp extends HTMLElement {
     }
 
     render() {
-        let logoContainer = setElement("div",{
+        let logoContainer = setElement("div", {
             class: "logo-container"
         })
         let logo = companyLogo()
@@ -21,8 +21,8 @@ class LoginScreenComp extends HTMLElement {
 
         let welcomeMsg = setElement("p").inner("Welcome! Let's dive into your account!")
 
-        let soMeButtonsContainer = setElement("div",{
-             class: "some-buttons"
+        let soMeButtonsContainer = setElement("div", {
+            class: "some-buttons"
         })
         let fbButton = setElement("button", {
             class: "large-rounded"
@@ -47,16 +47,20 @@ class LoginScreenComp extends HTMLElement {
         let divider = setElement("hr")
         let or = setElement("p").inner("or")
 
-
         dividerContainer.append(divider, or)
         return dividerContainer;
     }
 
-    handleRedirect(){
+    handleRedirect() {
         let buttons = this.querySelectorAll("button");
         buttons.forEach(btn => btn.onclick = () => {
-            window.location.href = "/"
             setLS("loggedIn", true)
+            setLS("lastLogin", Date.now())
+            if (!getLS("onboardingCompleted")) {
+                window.location.href = "/onboarding"
+            } else {
+                window.location.href = "/"
+            }
         })
     }
 

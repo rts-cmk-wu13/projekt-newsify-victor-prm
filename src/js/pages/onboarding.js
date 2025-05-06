@@ -1,11 +1,11 @@
 import '../../style/main.sass'
-import { setElement } from '../utilities.js';
+import { setElement, setLS } from '../utilities.js';
 import { SplashScreen } from '../../components/splash-screen.js';
 import { OnboardingCarousel } from '../../components/onboarding-carousel.js';
 
 //Setup
-let splashScreen = setElement(SplashScreen)
 let contentDiv = document.querySelector('#app');
+setLS("splashScreenShown", false)
 
 //Populate Main
 export async function populateOnboarding() {
