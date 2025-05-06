@@ -137,7 +137,7 @@ class PageHeaderComp extends HTMLElement {
             class: "settings-buttons"
         })
         let logout = setElement("button", {
-            class: "large-rounded"
+            class: "large-rounded settings"
         }).inner("Log Out")
 
         logout.onclick = () => {
