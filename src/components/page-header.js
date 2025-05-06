@@ -1,4 +1,4 @@
-import { setElement, companyLogo, sectionTitle, categoryList, setLS, lockScroll, unlockScroll } from "../js/utilities";
+import { setElement, companyLogo, sectionTitle, categoryList, setLS, lockScroll, unlockScroll, getLS } from "../js/utilities";
 
 let tagName = 'page-header'
 class PageHeaderComp extends HTMLElement {
@@ -118,7 +118,7 @@ class PageHeaderComp extends HTMLElement {
             icon: "far fa-moon",
         })
 
-        list.forEach(element => {
+        list.forEach((element, index) => {
             let listItem = setElement("div", {
                 class: "settings-item"
             })
@@ -128,6 +128,15 @@ class PageHeaderComp extends HTMLElement {
                 role: "switch"
             })
             toggleInput.checked = true
+
+            toggleInput.onclick = () => {
+                let settingsArray = getLS("settingsArray") || [true, true, true, true, true]
+                settingsArray[index] = toggleInput.checked;
+                setLS("settingsArray",settingsArray);
+                console.log(settingsArray)
+            }
+
+
             listItem.append(section, toggleInput)
             settingsContainer.append(listItem);
         })
