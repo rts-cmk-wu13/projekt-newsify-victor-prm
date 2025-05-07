@@ -96,6 +96,16 @@ export function popularList() {
     return popularList;
 }
 
+export function getSettings(list) {
+    return getLS("settingsArray") || new Array(list.length)
+}
+
+export function updateCategories(callback) {
+    window.addEventListener("storageChanged", () => {
+        callback();
+    })
+}
+
 export function scale(number, inMin, inMax, outMin, outMax) {
     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
@@ -108,10 +118,10 @@ export function setLS(key, value) {
     localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function hasSeenSplashScreen(){
-    if(getLS("splashScreenShown")){
+export function hasSeenSplashScreen() {
+    if (getLS("splashScreenShown")) {
         return true
-    }else{
+    } else {
         return false
     }
 }
