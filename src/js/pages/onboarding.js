@@ -13,3 +13,5 @@ export async function populateOnboarding() {
     contentDiv.append(carousel)
 }
 populateOnboarding();
+
+contentDiv.style.overflow = 'hidden';
