@@ -15,7 +15,7 @@ let steps = [
         img: screenHome
     },
     {
-        title: "Stay Connected, Everywhere, Anytime",
+        title: "Enhance your News Journey Now!",
         body: "Be part of our dynamic community and contribute your insights and participate in enriching conversations.",
         img: screenSettings
     }
@@ -69,7 +69,7 @@ class OnboardingCarouselComp extends HTMLElement {
             dot.onclick = () => {
                 this.currentStep = index;
                 console.log(this.currentStep)
-                this.updateIndex(carouselImg,pageTitle,pageText,dots);
+                this.updateIndex(carouselImg, pageTitle, pageText, dots);
             }
 
             dots.push(dot)
@@ -86,14 +86,14 @@ class OnboardingCarouselComp extends HTMLElement {
         }).inner("Skip")
         skipBtn.onclick = () => {
             this.currentStep = 3;
-            this.updateIndex(carouselImg,pageTitle,pageText,dots);
+            this.updateIndex(carouselImg, pageTitle, pageText, dots);
         }
         let continueBtn = setElement("button", {
             class: "large-rounded green-button"
         }).inner("Continue")
         continueBtn.onclick = () => {
             this.currentStep++;
-            this.updateIndex(carouselImg,pageTitle,pageText,dots);
+            this.updateIndex(carouselImg, pageTitle, pageText, dots);
         }
 
 
@@ -104,7 +104,7 @@ class OnboardingCarouselComp extends HTMLElement {
         this.append(carouselImg, textContainer)
     }
 
-    updateIndex(carouselImg,pageTitle,pageText,dots) {
+    updateIndex(carouselImg, pageTitle, pageText, dots) {
         if (this.currentStep < 3) {
             //Change Slide
             carouselImg.classList.add("hidden")
