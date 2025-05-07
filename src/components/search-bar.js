@@ -1,4 +1,5 @@
 import { setElement } from '../js/utilities';
+
 let tagName = 'search-bar'
 class SearchBarComp extends HTMLElement {
 
@@ -12,12 +13,12 @@ class SearchBarComp extends HTMLElement {
     }
 
     render() {
-        let searchBar = setElement("input",{
+        let searchBar = setElement("input", {
             class: "article-search",
             placeholder: "Search news"
         })
 
-        let searchIcon = setElement("i",{
+        let searchIcon = setElement("i", {
             class: "fas fa-search search-icon"
         })
         this.append(searchBar)
