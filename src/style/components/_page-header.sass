@@ -1,0 +1,179 @@
+@use '../base'
+@use '../variables' as var
+
+.page-header
+    @extend %fxrow
+
+    position: fixed
+    top: 0
+    left: 50%
+    transform: translate(-50%, 0)
+    z-index: 100
+
+    width: 100%
+    max-width: var.$max-width-page
+
+    gap: var.$unit-2x
+
+    align-items: center
+    justify-content: space-between
+
+    padding: var.$unit-2x
+
+    background: white
+
+    .logo-wrap
+        @extend %fxrow
+        gap: var.$unit-1x
+        height: 2rem
+
+        h1
+            font: var.$text-heading-2
+            width: fit-content
+
+    &__profile
+        @extend %fxrow
+        align-items: center
+        gap: var.$unit-1x
+        p
+            font: var.$text-body-4
+
+        >div
+            text-align: right
+
+    .settings-button
+        @extend %fxrow
+        align-items: center
+        justify-content: center
+
+        aspect-ratio: 1 / 1
+        height: var.$unit-4x
+
+        background-color: var.$gray-100
+        border-radius: 100%
+        border: none
+
+        overflow: hidden
+        //anchor-name: --settingsDialog
+
+        p
+            font-weight: 700
+            width: fit-content
+            color: var.$gray-600
+
+        img
+            width: 100%
+            height: 100%
+
+    .settings-buttons
+        @extend %fxcol
+        padding: var.$unit-4x
+        align-self: end
+        align-items: center
+        justify-content: center
+        gap: var.$unit-2x
+
+        .large-rounded.settings
+            background: var.$gray-100
+            border: 1px solid var.$gray-300
+
+    .settings-dialog
+        position: relative
+
+        top: 3rem
+        left: 50%
+        transform: translate(-50%, 0)
+        z-index: 200
+
+        width: 100%
+        max-width: var.$max-width-page
+
+        margin-top: var.$unit-1x
+        padding: var.$unit-2x var.$unit-2x
+
+        background: var.$gray-050
+        background: linear-gradient(0deg,var.$gray-050 0%, white 100%)
+
+        box-shadow: 0 0-(var.$unit-1x) var.$unit-8x var.$unit-025x rgba(var.$gray-900,0.2)
+        border-radius: var.$unit-1x
+        border: none
+
+        &[open]
+            animation: fadeIn 0.3s ease-in forwards
+
+        &::backdrop
+            background-color: rgba(white,0.25)
+            backdrop-filter: blur(1px)
+
+        .settings-container
+            >h2
+                font: var.$text-heading-2
+                color: var.$color-primary-700
+                margin-bottom: var.$unit-05x
+
+                >i
+                    margin-right: var.$unit-1x
+
+            >p
+                margin-bottom: var.$unit-2x
+                font: var.$text-body-3
+                color: var.$gray-500
+
+        .settings-item
+            @extend %fxrow
+            justify-content: space-between
+            gap: var.$unit-05x
+            align-items: center
+            border-bottom: 1px solid var.$gray-100
+            padding: var.$unit-1x 0
+
+            input
+                -webkit-appearance: none
+                -moz-appearance: none
+                appearance: none
+                position: relative
+                font-size: inherit
+                width: 2em
+                height: 1em
+                box-sizing: content-box
+                border: 1px solid var.$gray-100
+                background-color: var.$gray-300
+                border-radius: 1em
+                vertical-align: text-bottom
+                color: inherit
+                cursor: pointer
+
+            input:active
+                opacity: 0.8
+
+            input:before
+                content: ""
+                position: absolute
+                top: 50%
+                left: 0
+                transform: translate(0, -50%)
+                box-sizing: border-box
+                width: 0.7em
+                height: 0.7em
+                margin: 0 0.15em
+                border: 1px solid var.$gray-100
+                border-radius: 50%
+                background-color: white
+                transition: 0.3s left
+
+            input:checked
+                background-color: var.$color-primary-500
+                transition: 0.3s background
+
+            input:checked:before
+                left: 1em
+
+            input:disabled
+                opacity: 0.4
+
+        .settings-item:first-of-type
+            border-top: 1px solid var.$gray-100
+
+        .settings-item:last-of-type
+            border-top: 1px solid var.$gray-100
+            margin-top: var.$unit-5x

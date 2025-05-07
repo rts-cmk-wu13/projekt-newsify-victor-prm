@@ -1,0 +1,107 @@
+@use '../base'
+@use '../variables' as var
+
+.article-item
+    @extend %fxrow
+    cursor: pointer
+
+    position: relative
+    gap: var.$unit-1x
+
+    transition: transform 0.3s ease, opacity 1s ease
+    touch-action: pan-y
+
+    &__img-wrap, &__swipe-box
+        width: 7rem
+        height: 7rem
+
+        background-color: var.$gray-100
+        border-radius: var.$unit-1x
+
+    &__img-wrap
+        overflow: hidden
+        display: block
+
+        img
+            display: block
+            width: 100%
+            height: 100%
+            object-fit: cover
+
+    &__swipe-box
+        @extend %fxrow
+        align-items: center
+        justify-content: center
+
+        right: 0-(var.$unit-3x)
+
+        position: absolute
+        transform: translateX(6rem)
+        background-color: var.$color-primary-500
+        color: white
+
+        opacity: 1
+        transition: opacity 0.3s
+
+        i
+            transition: scale 300ms
+            &.activated
+                scale: 1.5
+
+    article
+        @extend %fxcol
+        gap: var.$unit-025x
+        flex: 1
+
+        hgroup
+            @extend %fxcol
+            align-items: stretch
+            gap: var.$unit-025x
+
+            h3
+                font: var.$text-title-2
+                letter-spacing: 0.02rem
+                color: var.$color-primary-700
+
+                -webkit-hyphens: auto
+                -moz-hyphens: auto
+                -ms-hyphens: auto
+                hyphens: auto
+
+                i
+                    font-size: 0.75rem
+                    margin-right: var.$unit-05x
+
+                a
+                    color: var.$color-primary-700
+                    text-underline-offset: var.$unit-025x
+                    text-decoration: underline solid var.$color-primary-050
+                    -webkit-text-decoration: underline solid var.$color-primary-050
+                    text-decoration-thickness: 2px
+                    transition: color 0.3s, text-decoration-color 0.3s
+
+                &:hover
+                    a
+                        color: var.$color-primary-800
+                        text-decoration-color: var.$color-primary-500
+            p
+                font: var.$text-body-4
+                color: var.$gray-300
+
+        p.summary
+            font: var.$text-body-3
+            color: var.$gray-600
+            flex: 1
+
+        @media only screen and (max-width: 30rem)
+            hgroup
+                h3
+                    font-size: 0.875rem
+
+    &:not(:last-of-type)::after
+        content: ""
+        position: absolute
+        bottom: 0-(var.$unit-2x)
+        height: 1px
+        width: 100%
+        border-bottom: 1px solid var.$gray-050

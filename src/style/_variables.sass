@@ -1,0 +1,80 @@
+@use 'sass:math'
+@use 'sass:color'
+
+/* Gray base */
+$gray-500: #7f7f7f
+/* Gray lighter */
+$gray-050: color.scale($gray-500,$lightness: 90%)
+$gray-100: color.scale($gray-500,$lightness: 80%)
+$gray-200: color.scale($gray-500,$lightness: 60%)
+$gray-300: color.scale($gray-500,$lightness: 40%)
+$gray-400: color.scale($gray-500,$lightness: 20%)
+/* Gray darker */
+$gray-600: color.scale($gray-500,$lightness: -20%)
+$gray-700: color.scale($gray-500,$lightness: -40%)
+$gray-800: color.scale($gray-500,$lightness: -60%)
+$gray-900: color.scale($gray-500,$lightness: -80%)
+$gray-950: color.scale($gray-500,$lightness: -90%)
+
+$color-primary-500: #4D861F
+/* Gray lighter */
+$color-primary-050: color.scale($color-primary-500,$lightness: 90%)
+$color-primary-100: color.scale($color-primary-500,$lightness: 80%)
+$color-primary-200: color.scale($color-primary-500,$lightness: 60%)
+$color-primary-300: color.scale($color-primary-500,$lightness: 40%)
+$color-primary-400: color.scale($color-primary-500,$lightness: 20%)
+/* Gray darker */
+$color-primary-600: color.scale($color-primary-500,$lightness: -20%)
+$color-primary-700: color.scale($color-primary-500,$lightness: -40%)
+$color-primary-800: color.scale($color-primary-500,$lightness: -60%)
+$color-primary-900: color.scale($color-primary-500,$lightness: -80%)
+$color-primary-950: color.scale($color-primary-500,$lightness: -90%)
+
+$color-alert: #FF5D5D
+$color-accent: #FDD201
+
+$black-tint-100: rgba($gray-900, .2)
+$box-shadow-6r: 0 0 6rem $black-tint-100
+
+$max-width-content: 42rem
+$max-width-page: 45rem
+$tablet-breakpoint: 40rem
+$unit-1x: 0.5rem
+$unit-2x: $unit-1x*2
+$unit-3x: $unit-1x*3
+$unit-4x: $unit-1x*4
+$unit-5x: $unit-1x*5
+$unit-6x: $unit-1x*6
+$unit-7x: $unit-1x*7
+$unit-8x: $unit-1x*8
+$unit-05x: math.div($unit-1x,2)
+$unit-025x: math.div($unit-1x,4)
+$grid-item-size: 8rem
+
+$svg-white: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg) brightness(110%) contrast(110%)
+
+//FONTS
+@font-face
+    font-family: "Playfair Display"
+    src: url(../assets/fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf) format("truetype")
+
+@font-face
+    font-family: "Open Sans"
+    src: url(../assets/fonts/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf) format("truetype")
+
+$serif-family: "Playfair Display", Georgia, 'Times New Roman', Times, serif
+$sans-serif-family: "Open Sans", Helvetica, Arial, sans-serif
+
+$text-display: 900 3rem/4rem $serif-family
+$text-heading-1: 900 2rem/3rem $serif-family
+$text-heading-2: 900 1.5rem/2rem $serif-family
+$text-heading-3: 900 1rem/1.25rem $serif-family
+
+$text-title-1: 700 2rem/3rem $sans-serif-family
+$text-title-2: 700 1rem/1.25rem $serif-family
+$text-title-3: 500 0.875rem/1.25rem $sans-serif-family
+
+$text-body-1: 1.25rem/1.75rem $sans-serif-family
+$text-body-2: 1rem/1.5rem $sans-serif-family
+$text-body-3: 0.875rem/1.25rem $sans-serif-family
+$text-body-4: 0.625rem/1rem $sans-serif-family

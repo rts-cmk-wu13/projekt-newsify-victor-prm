@@ -1,0 +1,38 @@
+@use '../base'
+@use '../variables' as var
+
+.login-screen
+    @extend %fxcol
+    height: 100dvh
+    align-items: center
+    justify-content: center
+    margin: 0 var.$unit-2x
+    gap: var.$unit-5x
+
+    .logo-container
+        @extend %fxcol
+        width: fit-content
+        align-items: center
+
+        img
+            width: 5rem
+
+        h1
+            font: var.$text-heading-1
+
+    .some-buttons
+        @extend %fxcol
+        justify-content: center
+        gap: var.$unit-2x
+
+    .login-divider
+        width: 100%
+
+        p
+            position: relative
+            transform: translateY(-(0.9rem))
+            text-align: center
+            background-color: white
+            width: fit-content
+            padding: 0 var.$unit-1x
+            margin: 0 auto

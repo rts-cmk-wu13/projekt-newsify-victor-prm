@@ -1,0 +1,56 @@
+@use '../base'
+@use '../variables' as var
+
+.news-section
+    overflow-x: hidden
+
+    summary
+        @extend %fxrow
+        gap: var.$unit-1x
+        justify-content: space-between
+        align-items: center
+        cursor: pointer
+        border-top: 1px solid var.$gray-200
+        padding: var.$unit-1x 0
+
+        &::marker, &::-webkit-details-marker
+            content: ""
+            display: none
+            list-style: none
+
+        i
+            width: 1.25rem
+            text-align: center
+
+    .content-div
+        @extend %fxcol
+        padding-block: var.$unit-2x
+        gap: var.$unit-4x
+
+    &:last-of-type
+        summary
+            border-bottom: 1px solid var.$gray-200
+
+    details
+        interpolate-size: allow-keywords
+
+        &::details-content
+            opacity: 0
+            block-size: 0
+            overflow-y: clip
+            padding-bottom: 0
+            transition: content-visibility 0.3s allow-discrete, opacity 0.3s, block-size 0.3s, padding-bottom 0.3s
+
+        &:open
+            summary
+                border-bottom: 1px solid var.$gray-200
+                .fa-chevron-right
+                    transform: rotate(90deg)
+
+            &::details-content
+                opacity: 1
+                block-size: auto
+                padding-bottom: var.$unit-4x
+
+        .fa-chevron-right
+            transition: transform 0.3s
